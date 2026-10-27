@@ -31,9 +31,9 @@ devOPS/
 
 ## Qatlamlar (layered architecture)
 
-1. **Prezentatsiya** — Django views/templates va DRF ViewSet/Serializer/Permission.
-2. **Biznes-logika** — har ilovaning `services.py` (asosiy qoidalar shu yerda).
-3. **Ma'lumotlar** — Django ORM modellari (indekslar va cheklovlar bilan).
+1. **Prezentatsiya** - Django views/templates va DRF ViewSet/Serializer/Permission.
+2. **Biznes-logika** - har ilovaning `services.py` (asosiy qoidalar shu yerda).
+3. **Ma'lumotlar** - Django ORM modellari (indekslar va cheklovlar bilan).
 
 So'rov faqat quyidagi qatlamga tushadi; `views` ingichka, logika `services` da.
 
@@ -41,6 +41,6 @@ So'rov faqat quyidagi qatlamga tushadi; `views` ingichka, logika `services` da.
 
 - Model abstraksiyasi: barcha domen modellari `core.TimeStampedModel` dan meros.
 - Maxsus User: `accounts.User` (email = USERNAME_FIELD, `role` maydoni).
-- Holatlar: `ReservationStatus`, `TableStatus`, `ZoneType`, `Role` — `TextChoices`.
+- Holatlar: `ReservationStatus`, `TableStatus`, `ZoneType`, `Role` - `TextChoices`.
 - Audit: muhim amallar `core.services.record_audit` orqali `AuditLog` ga yoziladi.
 - Sozlamalar split: `config.settings.{base,dev,prod,test}`.

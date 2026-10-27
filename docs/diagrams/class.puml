@@ -1,5 +1,5 @@
 @startuml class
-' Class diagram — domain models and relationships (design §3).
+' Class diagram - domain models and relationships (design §3).
 skinparam classAttributeIconSize 0
 
 abstract class TimeStampedModel {

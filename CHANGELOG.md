@@ -5,7 +5,7 @@ Ushbu loyiha [Keep a Changelog](https://keepachangelog.com/) uslubiga va
 
 ## [1.0.0] - 2025-01-01
 
-Birinchi barqaror reliz — TableReserve kafe stol rezervatsiyasi platformasi.
+Birinchi barqaror reliz - TableReserve kafe stol rezervatsiyasi platformasi.
 
 ### Added
 

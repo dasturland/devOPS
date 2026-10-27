@@ -1,5 +1,5 @@
 @startuml usecase
-' Use case diagram — actors and system capabilities (V1-V9).
+' Use case diagram - actors and system capabilities (V1-V9).
 left to right direction
 skinparam actorStyle awesome
 

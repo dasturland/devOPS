@@ -130,7 +130,7 @@ class Command(BaseCommand):
                     "manager": manager,
                     "opening_time": time(9, 0),
                     "closing_time": time(23, 0),
-                    "description": f"{name} — qulay va iliq muhit.",
+                    "description": f"{name} - qulay va iliq muhit.",
                     "is_active": True,
                 },
             )

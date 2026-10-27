@@ -1,25 +1,25 @@
 @startuml cicd-pipeline
-' CI/CD pipeline — GitHub Actions flow (NFR-07).
+' CI/CD pipeline - GitHub Actions flow (NFR-07).
 start
 :push / pull_request;
 fork
-  :ci.yml — lint (ruff) + mypy;
-  :ci.yml — matrix test (3.11, 3.12) + pytest --cov >= 80%;
-  :ci.yml — manage.py check + makemigrations --check;
+  :ci.yml - lint (ruff) + mypy;
+  :ci.yml - matrix test (3.11, 3.12) + pytest --cov >= 80%;
+  :ci.yml - manage.py check + makemigrations --check;
 fork again
-  :security.yml — bandit + pip-audit + CodeQL;
+  :security.yml - bandit + pip-audit + CodeQL;
 end fork
 if (main branchga merge?) then (ha)
-  :docker.yml — buildx -> GHCR (latest/SHA/tag) + Trivy skan;
-  :cd.yml — staging deploy -> /health/ smoke-test;
+  :docker.yml - buildx -> GHCR (latest/SHA/tag) + Trivy skan;
+  :cd.yml - staging deploy -> /health/ smoke-test;
   :Manual approval (GitHub Environment);
-  :cd.yml — production deploy -> /health/ smoke-test;
+  :cd.yml - production deploy -> /health/ smoke-test;
 else (yo'q)
   :faqat tekshiruvlar;
 endif
 if (v*.*.* tag?) then (ha)
-  :release.yml — GitHub Release + changelog;
+  :release.yml - GitHub Release + changelog;
 endif
-:docs.yml — render_diagrams.py (Kroki);
+:docs.yml - render_diagrams.py (Kroki);
 stop
 @enduml

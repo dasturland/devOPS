@@ -2,15 +2,15 @@
 
 ## Konteyner tuzilishi
 
-- **Dockerfile** — multi-stage (`python:3.12-slim`):
+- **Dockerfile** - multi-stage (`python:3.12-slim`):
   - *builder* bosqichi: virtualenv + `requirements/prod.txt` (compilers bilan).
   - *runtime* bosqichi: slim, non-root `app` foydalanuvchisi, `collectstatic`,
     `HEALTHCHECK` `/health/` ga `curl` qiladi.
-- **entrypoint.sh** — bazani kutadi (TCP poll), `migrate`, `collectstatic`,
+- **entrypoint.sh** - bazani kutadi (TCP poll), `migrate`, `collectstatic`,
   so'ng gunicorn (yoki CMD) ni `exec` qiladi.
-- **docker-compose.yml** — `web` (gunicorn) + `db` (PostgreSQL 16) + `nginx`.
-- **docker-compose.dev.yml** — `web` (runserver) + `db`, manba mount qilingan.
-- **nginx/default.conf** — statik/media'ni to'g'ridan-to'g'ri, qolganini `web`ga proxy.
+- **docker-compose.yml** - `web` (gunicorn) + `db` (PostgreSQL 16) + `nginx`.
+- **docker-compose.dev.yml** - `web` (runserver) + `db`, manba mount qilingan.
+- **nginx/default.conf** - statik/media'ni to'g'ridan-to'g'ri, qolganini `web`ga proxy.
 
 ## Lokal Docker bilan ishga tushirish
 
@@ -58,8 +58,8 @@ ghcr.io/dasturland/devops:<versiya>
 
 `GET /health/`:
 
-- 200 — `{"status":"ok","database":"ok"}` (DB `SELECT 1` muvaffaqiyatli).
-- 503 — `{"status":"error","database":"down"}`.
+- 200 - `{"status":"ok","database":"ok"}` (DB `SELECT 1` muvaffaqiyatli).
+- 503 - `{"status":"error","database":"down"}`.
 
 Dockerfile `HEALTHCHECK` va cd.yml smoke-test shu endpointga tayanadi.
 

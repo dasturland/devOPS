@@ -1,5 +1,5 @@
 @startuml component
-' Component diagram — layers and module dependencies (design §2, §7).
+' Component diagram - layers and module dependencies (design §2, §7).
 skinparam componentStyle rectangle
 
 package "Prezentatsiya" {

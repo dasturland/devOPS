@@ -2,7 +2,7 @@
 
 ## Nima bu?
 
-**TableReserve** — kafelar uchun stol rezervatsiyasi platformasi. Mijozlar bo'sh
+**TableReserve** - kafelar uchun stol rezervatsiyasi platformasi. Mijozlar bo'sh
 stolni sana, vaqt, davomiylik va odam soniga ko'ra topib, onlayn bron qiladi;
 kafe menejerlari bronlarni tasdiqlaydi/rad etadi va kunlik jadvalni boshqaradi;
 administrator butun platforma statistikasini ko'radi.
@@ -12,11 +12,11 @@ Loyiha "DevOps va CI/CD texnologiyalari" amaliy mashg'uloti doirasida, spec-driv
 
 ## Asosiy foydalanuvchilar (rollar)
 
-- **Mehmon** — kafelarni ko'radi, bo'sh stol qidiradi, ro'yxatdan o'tadi.
-- **Mijoz (CUSTOMER)** — stol bron qiladi, bronlarini boshqaradi, sharh qoldiradi.
-- **Menejer (MANAGER)** — o'z kafe(lar)ini, zonalarini, stollarini va bronlarini boshqaradi.
-- **Ofitsiant (WAITER)** — kunlik jadval va bron holatlari bilan ishlaydi.
-- **Administrator (ADMIN)** — platforma statistikasi va umumiy boshqaruv.
+- **Mehmon** - kafelarni ko'radi, bo'sh stol qidiradi, ro'yxatdan o'tadi.
+- **Mijoz (CUSTOMER)** - stol bron qiladi, bronlarini boshqaradi, sharh qoldiradi.
+- **Menejer (MANAGER)** - o'z kafe(lar)ini, zonalarini, stollarini va bronlarini boshqaradi.
+- **Ofitsiant (WAITER)** - kunlik jadval va bron holatlari bilan ishlaydi.
+- **Administrator (ADMIN)** - platforma statistikasi va umumiy boshqaruv.
 
 ## Asosiy imkoniyatlar
 

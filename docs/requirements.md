@@ -15,7 +15,7 @@ spec faylida saqlanadi.
 | Ofitsiant (WAITER) | Kunlik jadval, bron holatlari |
 | Administrator (ADMIN) | Platforma statistikasi, umumiy boshqaruv |
 
-## Funksional talablar (FR) — guruhlar
+## Funksional talablar (FR) - guruhlar
 
 | FR | Mavzu |
 |----|-------|
@@ -28,7 +28,7 @@ spec faylida saqlanadi.
 | FR-22…FR-24 | Dashboard statistikasi, REST API, OpenAPI |
 | FR-25…FR-30 | Health-check, audit log, xato sahifalar, mavzu toggle |
 
-## Nofunksional talablar (NFR) — guruhlar
+## Nofunksional talablar (NFR) - guruhlar
 
 | NFR | Mavzu |
 |-----|-------|

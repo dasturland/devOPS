@@ -1,10 +1,10 @@
 /* ==========================================================================
-   TableReserve — iliq "cafe" dizayn tili (FR-30, NFR-04).
+   TableReserve - iliq "cafe" dizayn tili (FR-30, NFR-04).
    CSS custom properties power the light/dark theme toggle (theme.js).
    ========================================================================== */
 
 :root {
-  /* Warm "cafe" palette — light theme */
+  /* Warm "cafe" palette - light theme */
   --bg: #fbf7f2;
   --bg-alt: #f3e9df;
   --fg: #2b2320;

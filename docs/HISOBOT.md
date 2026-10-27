@@ -1,7 +1,7 @@
 # Amaliy ish hisoboti (HISOBOT)
 
 > Fan: **DevOps va CI/CD texnologiyalari** · Amaliy mashg'ulot
-> Mavzu: **TableReserve** — kafe stol rezervatsiyasi platformasi
+> Mavzu: **TableReserve** - kafe stol rezervatsiyasi platformasi
 > Muallif: **Sadullayev Jaxongir**
 
 ## 1. Ishning maqsadi

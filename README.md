@@ -1,4 +1,4 @@
-# TableReserve — kafe stol rezervatsiyasi platformasi
+# TableReserve - kafe stol rezervatsiyasi platformasi
 
 [![CI](https://github.com/dasturland/devOPS/actions/workflows/ci.yml/badge.svg)](https://github.com/dasturland/devOPS/actions/workflows/ci.yml)
 [![Security](https://github.com/dasturland/devOPS/actions/workflows/security.yml/badge.svg)](https://github.com/dasturland/devOPS/actions/workflows/security.yml)
@@ -16,7 +16,7 @@
 
 ## Loyiha haqida
 
-**TableReserve** — kafelar uchun onlayn stol rezervatsiyasi platformasi. Mijozlar
+**TableReserve** - kafelar uchun onlayn stol rezervatsiyasi platformasi. Mijozlar
 bo'sh stolni sana, vaqt, davomiylik va odam soniga ko'ra topib bron qiladi; kafe
 menejerlari bronlarni tasdiqlaydi/rad etadi va kunlik jadvalni boshqaradi;
 administrator butun platforma statistikasini ko'radi.
@@ -48,7 +48,7 @@ va avtomatlashtirilgan sifat tekshiruvlariga qaratilgan.
 | Test/Sifat | pytest, pytest-django, pytest-cov, factory_boy, ruff, mypy, pre-commit |
 | DevOps | Docker (multi-stage), docker-compose, GitHub Actions, Dependabot, Trivy, CodeQL |
 
-## O'rnatish — lokal
+## O'rnatish - lokal
 
 ```bash
 git clone https://github.com/dasturland/devOPS.git
@@ -64,7 +64,7 @@ make seed                # demo ma'lumotlar (idempotent)
 make run                 # http://127.0.0.1:8000
 ```
 
-## O'rnatish — Docker
+## O'rnatish - Docker
 
 ```bash
 cp .env.example .env     # SECRET_KEY va POSTGRES_* ni to'ldiring
@@ -107,14 +107,14 @@ To'liq tuzilma: [`docs/architecture.md`](./docs/architecture.md).
 
 8 ta GitHub Actions workflow'i quvurni tashkil qiladi:
 
-- **ci.yml** — ruff lint + format, mypy, `manage.py check`, migratsiya tekshiruvi,
+- **ci.yml** - ruff lint + format, mypy, `manage.py check`, migratsiya tekshiruvi,
   Python 3.11/3.12 matritsasida PostgreSQL servisi bilan `pytest --cov` (qamrov < 80% => fail), coverage artifact.
-- **security.yml** — bandit, pip-audit, CodeQL (haftalik cron).
-- **docker.yml** — image build, Trivy skan, GHCR'ga push (latest/SHA/versiya teglari), buildx cache.
-- **cd.yml** — staging -> production (GitHub Environments + manual approval), `/health/` smoke-test.
-- **release.yml** — `v*.*.*` tag -> GitHub Release + changelog.
-- **docs.yml** — `render_diagrams.py` (Kroki).
-- **stale.yml**, **labeler.yml** — repo gigienasi.
+- **security.yml** - bandit, pip-audit, CodeQL (haftalik cron).
+- **docker.yml** - image build, Trivy skan, GHCR'ga push (latest/SHA/versiya teglari), buildx cache.
+- **cd.yml** - staging -> production (GitHub Environments + manual approval), `/health/` smoke-test.
+- **release.yml** - `v*.*.*` tag -> GitHub Release + changelog.
+- **docs.yml** - `render_diagrams.py` (Kroki).
+- **stale.yml**, **labeler.yml** - repo gigienasi.
 
 Qadam-baqadam tushuntirish, secrets ro'yxati va branch protection: [`docs/cicd.md`](./docs/cicd.md).
 

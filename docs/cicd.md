@@ -7,7 +7,7 @@ Barcha workflow'lar [`.github/workflows/`](../.github/workflows/) da. Har birida
 > (`printenv`, `env`, `os.environ` dump va h.k.) ishlatilmaydi. Sirlar faqat
 > kerakli qadamga, aniq o'zgaruvchi sifatida beriladi.
 
-## 1. `ci.yml` — Continuous Integration
+## 1. `ci.yml` - Continuous Integration
 
 Trigger: `push`/`pull_request` (`main`, `develop`).
 
@@ -24,44 +24,44 @@ Trigger: `push`/`pull_request` (`main`, `develop`).
 2. `pip install -r requirements/dev.txt`
 3. `python manage.py check`
 4. `python manage.py makemigrations --check --dry-run`
-5. `pytest --cov ...` — qamrov < 80% bo'lsa fail (`pyproject.toml`: `fail_under = 80`)
+5. `pytest --cov ...` - qamrov < 80% bo'lsa fail (`pyproject.toml`: `fail_under = 80`)
 6. coverage (`coverage.xml` + `htmlcov/`) artifact sifatida yuklanadi
 
 Test runi `DATABASE_URL` orqali PostgreSQL service konteyneriga ulanadi
 (`config.settings.test` `DATABASE_URL` bo'lsa Postgres'ni, aks holda SQLite'ni ishlatadi).
 
-## 2. `security.yml` — Xavfsizlik
+## 2. `security.yml` - Xavfsizlik
 
 Trigger: `push`/`pull_request` (`main`) + haftalik cron (`0 6 * * 1`).
 
 - **audit**: `bandit -r apps config -ll`, `pip-audit -r requirements/prod.txt`.
 - **codeql**: `github/codeql-action` (Python), `security-events: write`.
 
-## 3. `docker.yml` — Image build va GHCR push
+## 3. `docker.yml` - Image build va GHCR push
 
 Trigger: `push` (`main`, `v*.*.*` teglari), `pull_request` (`main`).
 
 1. Buildx sozlanadi.
-2. GHCR'ga login (PR'larda emas — fork xavfsizligi).
+2. GHCR'ga login (PR'larda emas - fork xavfsizligi).
 3. `docker/metadata-action` teglar: branch, `sha`, `semver` versiya, `latest`.
 4. Image lokal build (`load: true`) -> **Trivy** skan (CRITICAL/HIGH) -> SARIF upload.
 5. PR bo'lmasa, GHCR'ga push; buildx gha cache.
 
-## 4. `cd.yml` — Deploy (staging -> production)
+## 4. `cd.yml` - Deploy (staging -> production)
 
 Trigger: `Docker` workflow muvaffaqiyatli tugaganda (`workflow_run`) yoki `workflow_dispatch`.
 
 - **staging** job: `environment: staging`, deploy + `/health/` smoke-test.
-- **production** job: `needs: staging`, `environment: production` —
+- **production** job: `needs: staging`, `environment: production` -
   **manual approval** (GitHub Environment reviewer) talab qilinadi; deploy + `/health/` smoke-test.
 
-## 5. `release.yml` — Release
+## 5. `release.yml` - Release
 
 Trigger: `v*.*.*` tag push. `CHANGELOG.md` dan tegishli versiya bo'limini ajratib
 oladi va `softprops/action-gh-release` bilan GitHub Release yaratadi
 (`permissions: contents: write`).
 
-## 6. `docs.yml` — Diagrammalar
+## 6. `docs.yml` - Diagrammalar
 
 Trigger: `docs/diagrams/**` yoki render skripti o'zgarsa. `render_diagrams.py` ni
 ishga tushiradi va natijalarni artifact qiladi (offline'da graceful degrade).
@@ -82,7 +82,7 @@ ishga tushiradi va natijalarni artifact qiladi (offline'da graceful degrade).
 | `PRODUCTION_URL` | Variable (env) | production `/health/` smoke-test |
 
 Ilova sirlarini (`SECRET_KEY`, `POSTGRES_*`, `EMAIL_*`) deploy muhitida secret
-sifatida bering — hech qachon kodga yozmang.
+sifatida bering - hech qachon kodga yozmang.
 
 ## Branch protection (tavsiya etilgan)
 

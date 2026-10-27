@@ -47,7 +47,7 @@ biznes qoidalari `services.py` da to'planadi, view'lar ingichka.
 
 1. `transaction.atomic` ichida stol `select_for_update` bilan qulflanadi.
 2. Faol (PENDING/CONFIRMED) bronlar bilan vaqt kesishmasi tekshiriladi.
-3. PostgreSQL'da qo'shimcha kafolat — `btree_gist` + `ExclusionConstraint`
+3. PostgreSQL'da qo'shimcha kafolat - `btree_gist` + `ExclusionConstraint`
    (shartli migratsiya, faqat `connection.vendor == "postgresql"`).
 4. SQLite'da service-darajadagi `select_for_update` + overlap tekshiruvi.
 
@@ -70,14 +70,14 @@ Manbalar [`docs/diagrams/`](./diagrams/) da (Kroki orqali render qilinadi):
 | # | Diagramma | Fayl |
 |---|-----------|------|
 | 1 | Use case | `usecase.puml` |
-| 2 | Activity — bron yaratish | `activity-reservation.puml` |
-| 3 | Activity — tasdiqlash/rad etish | `activity-approval.puml` |
-| 4 | Activity — bekor qilish | `activity-cancellation.puml` |
+| 2 | Activity - bron yaratish | `activity-reservation.puml` |
+| 3 | Activity - tasdiqlash/rad etish | `activity-approval.puml` |
+| 4 | Activity - bekor qilish | `activity-cancellation.puml` |
 | 5 | Class | `class.puml` |
-| 6 | Sequence — bron yaratish | `sequence-reservation.puml` |
+| 6 | Sequence - bron yaratish | `sequence-reservation.puml` |
 | 7 | ER | `er.mmd` |
 | 8 | Deployment | `deployment.puml` |
 | 9 | Component | `component.puml` |
 | 10 | CI/CD pipeline | `cicd-pipeline.puml` |
 
-Render: `make diagrams` (tarmoq bo'lmasa, manbalar o'zgarmaydi — graceful degrade).
+Render: `make diagrams` (tarmoq bo'lmasa, manbalar o'zgarmaydi - graceful degrade).

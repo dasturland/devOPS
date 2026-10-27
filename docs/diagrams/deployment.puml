@@ -1,5 +1,5 @@
 @startuml deployment
-' Deployment diagram — containers, database, registry (NFR-06).
+' Deployment diagram - containers, database, registry (NFR-06).
 skinparam componentStyle rectangle
 
 node "Developer / CI" {

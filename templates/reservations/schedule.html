@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Kunlik jadval{% endblock %}
 {% block content %}
-<h1>Kunlik jadval {% if cafe %}— {{ cafe.name }}{% endif %}</h1>
+<h1>Kunlik jadval {% if cafe %}- {{ cafe.name }}{% endif %}</h1>
 
 <form method="get" class="search-panel" style="margin-bottom:1.5rem">
   <label for="id_date">Sana</label>
