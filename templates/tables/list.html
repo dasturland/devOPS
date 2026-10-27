@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ zone }} stollari{% endblock %}
+{% block content %}
+<h1>{{ zone }} &mdash; stollar</h1>
+<ul>
+  {% for table in tables %}
+    <li>Stol {{ table.number }} &mdash; {{ table.capacity }} kishi ({{ table.get_status_display }})</li>
+  {% empty %}
+    <li>Stollar yo'q.</li>
+  {% endfor %}
+</ul>
+{% if can_manage %}
+  <p><a class="btn btn-primary" href="{% url 'tables:create' zone.pk %}">Stol qo'shish</a></p>
+{% endif %}
+{% endblock %}
