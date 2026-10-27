@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load dashboard_extras %}
+{% block title %}Admin statistika{% endblock %}
+{% block content %}
+<h1>Statistika</h1>
+<form method="get" class="date-filter">
+  <label>Dan: <input type="date" name="date_from" value="{{ date_from|date:'Y-m-d' }}"></label>
+  <label>Gacha: <input type="date" name="date_to" value="{{ date_to|date:'Y-m-d' }}"></label>
+  <button type="submit" class="btn btn-primary">Ko'rsatish</button>
+</form>
+
+<div class="stat-cards">
+  <div class="card">Jami bronlar: <strong>{{ stats.total_reservations }}</strong></div>
+  <div class="card">Bekor qilish foizi: <strong>{{ stats.cancellation_rate|percentage }}</strong></div>
+  <div class="card">Kafelar: <strong>{{ stats.total_cafes }}</strong></div>
+</div>
+
+<h2>Holat bo'yicha</h2>
+<ul>
+  {% for status, count in stats.by_status.items %}
+    <li>{{ status }}: {{ count }}</li>
+  {% empty %}
+    <li>Ma'lumot yo'q.</li>
+  {% endfor %}
+</ul>
+
+<h2>Eng band stollar</h2>
+<ul>
+  {% for t in stats.busiest_tables %}
+    <li>Stol {{ t.number }} &mdash; {{ t.count }} bron</li>
+  {% empty %}
+    <li>Ma'lumot yo'q.</li>
+  {% endfor %}
+</ul>
+
+<!-- Chart.js data is prepared server-side; the chart is wired up in the frontend phase. -->
+<canvas id="status-chart" data-chart="{{ chart_data_json }}"></canvas>
+{% endblock %}
