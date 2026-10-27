@@ -326,7 +326,7 @@ fazaga tayanadi.
 
 ## Faza 12. Demo ma'lumotlar generatsiyasi
 
-- [ ] **12.1. `seed_demo_data` management komandasi.**
+- [x] **12.1. `seed_demo_data` management komandasi.**
   `apps/core/management/commands/seed_demo_data.py`: idempotent; 1 admin, 2 menejer,
   5 mijoz, 3 kafe, 30+ stol, 40+ turli holatdagi bron va bir nechta sharh yaratadi.
   *Tekshirish:* komandani ikki marta ishga tushirish dublikat yaratmaydi; yaratilgan
