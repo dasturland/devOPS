@@ -2,10 +2,20 @@
 {% block title %}Sharh qoldirish{% endblock %}
 {% block content %}
 <h1>Sharh qoldirish</h1>
-<p>Bron #{{ reservation.pk }} &mdash; {{ reservation.table.zone.cafe.name }}</p>
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Yuborish</button>
-</form>
+<p class="muted">Bron #{{ reservation.pk }} — {{ reservation.table.zone.cafe.name }}</p>
+
+<div class="card auth-card">
+  <form method="post" class="form-stack" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-row">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.help_text %}<p class="helptext muted">{{ field.help_text }}</p>{% endif %}
+        {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary"><i class="bi bi-send" aria-hidden="true"></i> Yuborish</button>
+  </form>
+</div>
 {% endblock %}

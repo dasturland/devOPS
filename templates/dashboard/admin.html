@@ -1,38 +1,66 @@
 {% extends "base.html" %}
 {% load dashboard_extras %}
 {% block title %}Admin statistika{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+{% endblock %}
+
 {% block content %}
-<h1>Statistika</h1>
-<form method="get" class="date-filter">
-  <label>Dan: <input type="date" name="date_from" value="{{ date_from|date:'Y-m-d' }}"></label>
-  <label>Gacha: <input type="date" name="date_to" value="{{ date_to|date:'Y-m-d' }}"></label>
-  <button type="submit" class="btn btn-primary">Ko'rsatish</button>
+<h1>Statistika paneli</h1>
+
+<form method="get" class="search-panel" style="margin-bottom:1.5rem">
+  <div class="search-grid">
+    <div class="form-row">
+      <label for="id_date_from">Dan</label>
+      <input type="date" id="id_date_from" name="date_from" value="{{ date_from|date:'Y-m-d' }}">
+    </div>
+    <div class="form-row">
+      <label for="id_date_to">Gacha</label>
+      <input type="date" id="id_date_to" name="date_to" value="{{ date_to|date:'Y-m-d' }}">
+    </div>
+    <div class="form-row">
+      <button type="submit" class="btn btn-primary btn-block">Ko'rsatish</button>
+    </div>
+  </div>
 </form>
 
 <div class="stat-cards">
-  <div class="card">Jami bronlar: <strong>{{ stats.total_reservations }}</strong></div>
-  <div class="card">Bekor qilish foizi: <strong>{{ stats.cancellation_rate|percentage }}</strong></div>
-  <div class="card">Kafelar: <strong>{{ stats.total_cafes }}</strong></div>
+  <div class="stat-card">
+    <div class="stat-value">{{ stats.total_reservations }}</div>
+    <div class="stat-label">Jami bronlar</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ stats.cancellation_rate|percentage }}</div>
+    <div class="stat-label">Bekor qilish foizi</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ stats.total_cafes }}</div>
+    <div class="stat-label">Kafelar</div>
+  </div>
 </div>
 
-<h2>Holat bo'yicha</h2>
-<ul>
-  {% for status, count in stats.by_status.items %}
-    <li>{{ status }}: {{ count }}</li>
-  {% empty %}
-    <li>Ma'lumot yo'q.</li>
-  {% endfor %}
-</ul>
+<div class="chart-box">
+  <h2>Holat bo'yicha bronlar</h2>
+  <canvas id="status-chart" data-chart="{{ chart_data_json }}"
+          data-chart-type="doughnut" data-chart-label="Bronlar" height="120"></canvas>
+</div>
 
-<h2>Eng band stollar</h2>
-<ul>
-  {% for t in stats.busiest_tables %}
-    <li>Stol {{ t.number }} &mdash; {{ t.count }} bron</li>
-  {% empty %}
-    <li>Ma'lumot yo'q.</li>
-  {% endfor %}
-</ul>
-
-<!-- Chart.js data is prepared server-side; the chart is wired up in the frontend phase. -->
-<canvas id="status-chart" data-chart="{{ chart_data_json }}"></canvas>
+<section class="section">
+  <h2>Eng band stollar</h2>
+  {% if stats.busiest_tables %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Stol</th><th>Bronlar soni</th></tr></thead>
+        <tbody>
+          {% for t in stats.busiest_tables %}
+            <tr><td>Stol {{ t.number }}</td><td>{{ t.count }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state"><i class="bi bi-bar-chart" aria-hidden="true"></i><p>Ma'lumot yo'q.</p></div>
+  {% endif %}
+</section>
 {% endblock %}

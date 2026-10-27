@@ -1,11 +1,110 @@
 {% extends "base.html" %}
 
-{% block title %}TableReserve &mdash; bosh sahifa{% endblock %}
+{% block title %}TableReserve — bosh sahifa{% endblock %}
 
 {% block content %}
 <section class="hero">
   <h1>Kafe stolingizni bir necha soniyada band qiling</h1>
-  <p>Sana, vaqt va odam soniga ko'ra bo'sh stollarni toping va onlayn bron qiling.</p>
-  <a class="btn btn-primary" href="{% url 'cafes:list' %}">Kafelarni ko'rish</a>
+  <p>Sana, vaqt va odam soniga ko'ra bo'sh stollarni toping va onlayn bron qiling.
+     Qulay, tez va ishonchli.</p>
+
+  <form class="search-panel" method="get" action="{% url 'reservations:search' %}" aria-label="Bo'sh stol qidirish">
+    <div class="search-grid">
+      <div class="form-row">
+        <label for="id_date">Sana</label>
+        {{ search_form.date }}
+      </div>
+      <div class="form-row">
+        <label for="id_start_time">Vaqt</label>
+        {{ search_form.start_time }}
+      </div>
+      <div class="form-row">
+        <label for="id_duration_minutes">Davomiylik</label>
+        {{ search_form.duration_minutes }}
+      </div>
+      <div class="form-row">
+        <label for="id_guests_count">Odam soni</label>
+        {{ search_form.guests_count }}
+      </div>
+      <div class="form-row">
+        <button type="submit" class="btn btn-primary btn-block">
+          <i class="bi bi-search" aria-hidden="true"></i> Qidirish
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<!-- Featured cafes -->
+<section class="section">
+  <h2 class="section-title">Mashhur kafelar</h2>
+  {% if cafes %}
+    <div class="card-grid">
+      {% for cafe in cafes %}
+        <article class="card cafe-card">
+          <div class="cafe-thumb" aria-hidden="true"><i class="bi bi-shop"></i></div>
+          <div class="cafe-card-body">
+            <h3><a href="{% url 'cafes:detail' cafe.slug %}">{{ cafe.name }}</a></h3>
+            <p class="muted"><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ cafe.address }}</p>
+            <p class="muted"><i class="bi bi-clock" aria-hidden="true"></i>
+               {{ cafe.opening_time|time:'H:i' }}–{{ cafe.closing_time|time:'H:i' }}</p>
+            <a class="btn btn-outline btn-sm" href="{% url 'cafes:detail' cafe.slug %}">Batafsil</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <i class="bi bi-shop" aria-hidden="true"></i>
+      <p>Hozircha kafelar qo'shilmagan.</p>
+    </div>
+  {% endif %}
+</section>
+
+<!-- How it works -->
+<section class="section">
+  <h2 class="section-title">Qanday ishlaydi</h2>
+  <div class="steps-grid">
+    <div class="card step-card">
+      <div class="step-icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></div>
+      <h3>1. Vaqtni tanlang</h3>
+      <p class="muted">Sana, vaqt, davomiylik va odam sonini kiriting.</p>
+    </div>
+    <div class="card step-card">
+      <div class="step-icon"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></div>
+      <h3>2. Stolni tanlang</h3>
+      <p class="muted">Bo'sh stollar ro'yxati va zal sxemasidan tanlang.</p>
+    </div>
+    <div class="card step-card">
+      <div class="step-icon"><i class="bi bi-check2-circle" aria-hidden="true"></i></div>
+      <h3>3. Tasdiqlang</h3>
+      <p class="muted">Bronni yuboring — menejer tasdiqlaydi va xabar olasiz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Recent reviews -->
+<section class="section">
+  <h2 class="section-title">So'nggi sharhlar</h2>
+  {% if reviews %}
+    <div class="card-grid">
+      {% for review in reviews %}
+        <article class="card">
+          <p class="rating-stars" aria-label="Baho {{ review.rating }} / 5">
+            {% for _ in "12345"|make_list %}
+              {% if forloop.counter <= review.rating %}<i class="bi bi-star-fill"></i>{% else %}<i class="bi bi-star"></i>{% endif %}
+            {% endfor %}
+          </p>
+          <p>{{ review.comment|default:"(Izohsiz baho)" }}</p>
+          <p class="muted"><strong>{{ review.cafe.name }}</strong></p>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <i class="bi bi-chat-heart" aria-hidden="true"></i>
+      <p>Hali sharhlar yo'q. Birinchi bo'lib sharh qoldiring!</p>
+    </div>
+  {% endif %}
 </section>
 {% endblock %}

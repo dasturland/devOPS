@@ -1,22 +1,41 @@
 {% extends "base.html" %}
 {% block title %}{{ cafe.name }}{% endblock %}
 {% block content %}
-<h1>{{ cafe.name }}</h1>
-<p>{{ cafe.address }} &middot; {{ cafe.phone }}</p>
-<p>Ish vaqti: {{ cafe.opening_time }} &ndash; {{ cafe.closing_time }}</p>
-<p>O'rtacha reyting: {{ average_rating }}</p>
-{% if cafe.description %}<p>{{ cafe.description }}</p>{% endif %}
+<div class="card">
+  <h1>{{ cafe.name }}</h1>
+  <p class="muted"><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ cafe.address }}
+     &middot; <i class="bi bi-telephone" aria-hidden="true"></i> {{ cafe.phone }}</p>
+  <p class="muted"><i class="bi bi-clock" aria-hidden="true"></i>
+     Ish vaqti: {{ cafe.opening_time|time:'H:i' }} – {{ cafe.closing_time|time:'H:i' }}</p>
+  <p class="rating-stars">
+    <i class="bi bi-star-fill" aria-hidden="true"></i>
+    O'rtacha reyting: <strong>{{ average_rating|default:"—" }}</strong>
+  </p>
+  {% if cafe.description %}<p>{{ cafe.description }}</p>{% endif %}
 
-<h2>Zonalar</h2>
-<ul>
-  {% for zone in cafe.zones.all %}
-    <li>{{ zone.name }} ({{ zone.get_zone_type_display }})</li>
-  {% empty %}
-    <li>Zonalar yo'q.</li>
-  {% endfor %}
-</ul>
+  <a class="btn btn-primary" href="{% url 'reservations:search' %}?cafe={{ cafe.pk }}">
+    <i class="bi bi-calendar-plus" aria-hidden="true"></i> Stol bron qilish
+  </a>
+</div>
 
-{% if can_manage %}
-  <p><a class="btn btn-primary" href="{% url 'cafes:zone_create' cafe.slug %}">Zona qo'shish</a></p>
-{% endif %}
+<section class="section">
+  <h2>Zonalar</h2>
+  {% if cafe.zones.all %}
+    <div class="card-grid">
+      {% for zone in cafe.zones.all %}
+        <div class="card">
+          <h3>{{ zone.name }}</h3>
+          <p class="muted">{{ zone.get_zone_type_display }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state"><i class="bi bi-grid" aria-hidden="true"></i><p>Zonalar yo'q.</p></div>
+  {% endif %}
+
+  {% if can_manage %}
+    <p style="margin-top:1rem"><a class="btn btn-accent" href="{% url 'cafes:zone_create' cafe.slug %}">
+      <i class="bi bi-plus-lg" aria-hidden="true"></i> Zona qo'shish</a></p>
+  {% endif %}
+</section>
 {% endblock %}

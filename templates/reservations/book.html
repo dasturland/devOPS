@@ -1,10 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Bronni tasdiqlash{% endblock %}
 {% block content %}
+<ol class="wizard-steps" aria-label="Bron bosqichlari">
+  <li class="is-done">1. Vaqtni tanlash</li>
+  <li class="is-done">2. Stolni tanlash</li>
+  <li class="is-active">3. Tasdiqlash</li>
+</ol>
+
 <h1>Bronni tasdiqlash</h1>
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Bron qilish</button>
-</form>
+
+<div class="card auth-card">
+  <form method="post" class="form-stack" novalidate>
+    {% csrf_token %}
+    {{ form.table }}
+    {{ form.date }}
+    {{ form.start_time }}
+    {{ form.duration_minutes }}
+    {{ form.guests_count }}
+
+    <ul class="muted">
+      <li><i class="bi bi-calendar" aria-hidden="true"></i> Sana: {{ form.date.value }}</li>
+      <li><i class="bi bi-clock" aria-hidden="true"></i> Vaqt: {{ form.start_time.value }}</li>
+      <li><i class="bi bi-people" aria-hidden="true"></i> Odam soni: {{ form.guests_count.value }}</li>
+    </ul>
+
+    <div class="form-row">
+      {{ form.note.label_tag }}
+      {{ form.note }}
+    </div>
+    {% if form.errors %}
+      <ul class="errorlist">{% for field in form %}{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}{% endfor %}</ul>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-check2-circle" aria-hidden="true"></i> Bron qilish
+    </button>
+    <a class="btn btn-outline" href="{% url 'reservations:search' %}">Orqaga</a>
+  </form>
+</div>
 {% endblock %}

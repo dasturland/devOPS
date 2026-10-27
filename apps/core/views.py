@@ -24,8 +24,22 @@ def health_check(request: HttpRequest) -> JsonResponse:
 
 
 def home(request: HttpRequest) -> HttpResponse:
-    """Render the public landing page."""
-    return render(request, "core/home.html")
+    """Render the public landing page with featured cafes and recent reviews."""
+    from apps.cafes.models import Cafe
+    from apps.reservations.forms import AvailabilitySearchForm
+    from apps.reviews.models import Review
+
+    cafes = Cafe.objects.filter(is_active=True).select_related("manager")[:6]
+    reviews = (
+        Review.objects.select_related("cafe", "author")
+        .order_by("-created_at")[:3]
+    )
+    context = {
+        "search_form": AvailabilitySearchForm(),
+        "cafes": cafes,
+        "reviews": reviews,
+    }
+    return render(request, "core/home.html", context)
 
 
 def handler403(

@@ -1,32 +1,70 @@
 {% extends "base.html" %}
 {% block title %}Bo'sh stol qidirish{% endblock %}
 {% block content %}
+<ol class="wizard-steps" aria-label="Bron bosqichlari">
+  <li class="is-active">1. Vaqtni tanlash</li>
+  <li class="{% if searched %}is-active{% endif %}">2. Stolni tanlash</li>
+  <li>3. Tasdiqlash</li>
+</ol>
+
 <h1>Bo'sh stol qidirish</h1>
-<form method="get" novalidate>
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Qidirish</button>
+
+<form method="get" class="search-panel" novalidate aria-label="Qidiruv shakli">
+  <div class="search-grid">
+    <div class="form-row">{{ form.date.label_tag }} {{ form.date }}</div>
+    <div class="form-row">{{ form.start_time.label_tag }} {{ form.start_time }}</div>
+    <div class="form-row">{{ form.duration_minutes.label_tag }} {{ form.duration_minutes }}</div>
+    <div class="form-row">{{ form.guests_count.label_tag }} {{ form.guests_count }}</div>
+    <div class="form-row">{{ form.zone_type.label_tag }} {{ form.zone_type }}</div>
+    <div class="form-row">
+      <button type="submit" class="btn btn-primary btn-block">
+        <i class="bi bi-search" aria-hidden="true"></i> Qidirish
+      </button>
+    </div>
+  </div>
+  {% for field in form %}
+    {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  {% endfor %}
 </form>
 
 {% if searched %}
-  <h2>Natijalar</h2>
-  <ul>
-    {% for table in tables %}
-      <li>
-        {{ table.zone.cafe.name }} &mdash; {{ table.zone.name }} / stol {{ table.number }}
-        ({{ table.capacity }} kishi)
-        <form method="post" action="{% url 'reservations:book' %}" style="display:inline">
-          {% csrf_token %}
-          <input type="hidden" name="table" value="{{ table.pk }}">
-          <input type="hidden" name="date" value="{{ form.cleaned_data.date|date:'Y-m-d' }}">
-          <input type="hidden" name="start_time" value="{{ form.cleaned_data.start_time|time:'H:i' }}">
-          <input type="hidden" name="duration_minutes" value="{{ form.cleaned_data.duration_minutes }}">
-          <input type="hidden" name="guests_count" value="{{ form.cleaned_data.guests_count }}">
-          <button type="submit" class="btn btn-primary">Tanlash</button>
-        </form>
-      </li>
-    {% empty %}
-      <li>Tanlangan vaqt uchun bo'sh stol topilmadi.</li>
-    {% endfor %}
-  </ul>
+  <section class="section">
+    <h2>Natijalar</h2>
+    {% if tables %}
+      <p class="floor-legend">
+        <span><span class="legend-dot legend-free"></span>Bo'sh</span>
+        <span><span class="legend-dot legend-selected"></span>Tanlangan</span>
+      </p>
+      <form method="post" action="{% url 'reservations:book' %}">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ form.cleaned_data.date|date:'Y-m-d' }}">
+        <input type="hidden" name="start_time" value="{{ form.cleaned_data.start_time|time:'H:i' }}">
+        <input type="hidden" name="duration_minutes" value="{{ form.cleaned_data.duration_minutes }}">
+        <input type="hidden" name="guests_count" value="{{ form.cleaned_data.guests_count }}">
+        <input type="hidden" name="table" value="" data-selected-table>
+
+        <div class="floor-map" data-floor-map>
+          {% for table in tables %}
+            <button type="button" class="floor-table is-free"
+                    data-table-id="{{ table.pk }}"
+                    aria-label="Stol {{ table.number }}, {{ table.capacity }} kishi, bo'sh">
+              <span>{{ table.number }}</span>
+              <small>{{ table.zone.cafe.name }}</small>
+              <small><i class="bi bi-people" aria-hidden="true"></i> {{ table.capacity }}</small>
+            </button>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary" data-select-submit disabled>
+          Tanlangan stolni bron qilish
+        </button>
+      </form>
+    {% else %}
+      <div class="empty-state">
+        <i class="bi bi-emoji-frown" aria-hidden="true"></i>
+        <p>Tanlangan vaqt uchun bo'sh stol topilmadi. Boshqa vaqtni sinab ko'ring.</p>
+      </div>
+    {% endif %}
+  </section>
 {% endif %}
 {% endblock %}

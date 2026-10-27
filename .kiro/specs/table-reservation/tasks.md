@@ -289,37 +289,37 @@ fazaga tayanadi.
 
 ## Faza 11. Frontend va UI dizayni
 
-- [ ] **11.1. `templates/base.html` va static tashkiloti.** `base.html` (semantik
+- [x] **11.1. `templates/base.html` va static tashkiloti.** `base.html` (semantik
   HTML, meta, blok tuzilmasi, CSRF); `static/css/`, `static/js/`, `static/img/`
   papkalari; Inter/Poppins shriftlar va Bootstrap Icons ulanishi; Bootstrap 5
   responsive grid.
   *Tekshirish:* sahifa render bo'ladi; mobil/planshet/desktop'da grid ishlaydi
   (manual + responsive tekshiruv). (`NFR-04`, `design.md` §2.2)
-- [ ] **11.2. CSS mavzu o'zgaruvchilari va dizayn tili.** Iliq "cafe" palitrasi
+- [x] **11.2. CSS mavzu o'zgaruvchilari va dizayn tili.** Iliq "cafe" palitrasi
   CSS o'zgaruvchilari (yorug'/qorong'i), kartalar, tugmalar, toast, bo'sh-holat
   (empty-state) va yuklash indikatorlari uslublari.
   *Tekshirish:* yorug'/qorong'i palitra elementlarda qo'llanadi (manual). (`NFR-04`,
   `FR-30`)
-- [ ] **11.3. Qorong'i/yorug' mavzu toggle (JS).** `static/js/theme.js`: toggle
+- [x] **11.3. Qorong'i/yorug' mavzu toggle (JS).** `static/js/theme.js`: toggle
   tanlovini `localStorage` da saqlash va qayta yuklaganda tiklash.
   *Tekshirish:* toggle bosilganda mavzu almashadi va reload'dan keyin saqlanadi
   (manual/JS test). (`FR-30`)
-- [ ] **11.4. Bosh sahifa (hero + qidiruv).** Hero bo'limi va bo'sh stol qidiruv
+- [x] **11.4. Bosh sahifa (hero + qidiruv).** Hero bo'limi va bo'sh stol qidiruv
   formasi (sana/vaqt/davomiylik/guests/zona).
   *Tekshirish:* qidiruv formasi natija sahifasiga yuboradi (view testi + manual).
   (`FR-11`, `NFR-04`)
-- [ ] **11.5. Interaktiv zal/stol sxemasi.** Vanilla JS + SVG/CSS orqali vizual
+- [x] **11.5. Interaktiv zal/stol sxemasi.** Vanilla JS + SVG/CSS orqali vizual
   stol xaritasi (bo'sh/band holatlar rangda); stolni tanlash wizardga uzatadi.
   *Tekshirish:* xarita stollar holatini aks ettiradi va tanlash ishlaydi (manual).
   (`FR-11`, `FR-12`, `design.md` §5.3)
-- [ ] **11.6. 3 qadamli bron wizardi UI.** Vaqt -> stol -> tasdiqlash qadamlari;
+- [x] **11.6. 3 qadamli bron wizardi UI.** Vaqt -> stol -> tasdiqlash qadamlari;
   qadamlar orasida holat saqlanishi; validatsiya xatolarining o'zbekcha ko'rinishi.
   *Tekshirish:* wizard uchdan-uch qadamni yakunlab bron yaratadi (view testi +
   manual). (`FR-12`, `FR-13`, `FR-14`, `FR-15`)
-- [ ] **11.7. Chart.js dashboard UI.** Dashboard sahifasida statistik kartalar va
+- [x] **11.7. Chart.js dashboard UI.** Dashboard sahifasida statistik kartalar va
   Chart.js grafiklari (sana filtri bilan).
   *Tekshirish:* grafiklar real ma'lumot bilan render bo'ladi (manual). (`FR-22`)
-- [ ] **11.8. Xato sahifalari UI.** `templates/errors/403.html`, `404.html`,
+- [x] **11.8. Xato sahifalari UI.** `templates/errors/403.html`, `404.html`,
   `500.html` ni mavzuga mos qilib bezash (Faza 3.6 shablonlari ustida).
   *Tekshirish:* `DEBUG=False` da chiroyli xato sahifalari ko'rinadi (manual).
   (`FR-29`)

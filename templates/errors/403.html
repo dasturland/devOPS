@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}403 &mdash; Taqiqlangan{% endblock %}
+{% block title %}403 — Taqiqlangan{% endblock %}
 
 {% block content %}
 <section class="error-page">
-  <h1>403</h1>
-  <p>Ushbu sahifa yoki amalga kirishga ruxsatingiz yo'q.</p>
-  <a class="btn btn-primary" href="{% url 'core:home' %}">Bosh sahifaga qaytish</a>
+  <p class="error-code">403</p>
+  <h1>Kirish taqiqlangan</h1>
+  <p class="muted">Ushbu sahifa yoki amalga kirishga ruxsatingiz yo'q.</p>
+  <a class="btn btn-primary" href="{% url 'core:home' %}">
+    <i class="bi bi-house" aria-hidden="true"></i> Bosh sahifaga qaytish
+  </a>
 </section>
 {% endblock %}

@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}404 &mdash; Topilmadi{% endblock %}
+{% block title %}404 — Topilmadi{% endblock %}
 
 {% block content %}
 <section class="error-page">
-  <h1>404</h1>
-  <p>Siz izlayotgan sahifa topilmadi.</p>
-  <a class="btn btn-primary" href="{% url 'core:home' %}">Bosh sahifaga qaytish</a>
+  <p class="error-code">404</p>
+  <h1>Sahifa topilmadi</h1>
+  <p class="muted">Siz izlayotgan sahifa mavjud emas yoki ko'chirilgan.</p>
+  <a class="btn btn-primary" href="{% url 'core:home' %}">
+    <i class="bi bi-house" aria-hidden="true"></i> Bosh sahifaga qaytish
+  </a>
 </section>
 {% endblock %}

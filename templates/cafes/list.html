@@ -2,18 +2,40 @@
 {% block title %}Kafelar{% endblock %}
 {% block content %}
 <h1>Kafelar</h1>
-<form method="get" class="search-form">
-  <input type="text" name="q" value="{{ query }}" placeholder="Kafe nomi bo'yicha qidirish">
-  <button type="submit" class="btn btn-primary">Qidirish</button>
+
+<form method="get" class="search-panel" style="margin-bottom:1.5rem" role="search">
+  <div class="search-grid">
+    <div class="form-row">
+      <label for="id_q">Qidirish</label>
+      <input type="text" id="id_q" name="q" value="{{ query }}" placeholder="Kafe nomi">
+    </div>
+    <div class="form-row">
+      <button type="submit" class="btn btn-primary btn-block"><i class="bi bi-search" aria-hidden="true"></i> Qidirish</button>
+    </div>
+  </div>
 </form>
-{% if perms or user.is_authenticated %}
-  <p><a class="btn btn-primary" href="{% url 'cafes:create' %}">Yangi kafe</a></p>
+
+{% if user.is_authenticated %}
+  <p><a class="btn btn-accent" href="{% url 'cafes:create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i> Yangi kafe</a></p>
 {% endif %}
-<ul class="cafe-list">
-  {% for cafe in cafes %}
-    <li><a href="{% url 'cafes:detail' cafe.slug %}">{{ cafe.name }}</a> &mdash; {{ cafe.address }}</li>
-  {% empty %}
-    <li>Hozircha kafelar yo'q.</li>
-  {% endfor %}
-</ul>
+
+{% if cafes %}
+  <div class="card-grid">
+    {% for cafe in cafes %}
+      <article class="card cafe-card">
+        <div class="cafe-thumb" aria-hidden="true"><i class="bi bi-shop"></i></div>
+        <div class="cafe-card-body">
+          <h3><a href="{% url 'cafes:detail' cafe.slug %}">{{ cafe.name }}</a></h3>
+          <p class="muted"><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ cafe.address }}</p>
+          <a class="btn btn-outline btn-sm" href="{% url 'cafes:detail' cafe.slug %}">Batafsil</a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <i class="bi bi-shop" aria-hidden="true"></i>
+    <p>Hozircha kafelar yo'q.</p>
+  </div>
+{% endif %}
 {% endblock %}

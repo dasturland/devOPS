@@ -2,39 +2,64 @@
 {% block title %}Mening bronlarim{% endblock %}
 {% block content %}
 <h1>Mening bronlarim</h1>
-<form method="get">
-  <select name="status" onchange="this.form.submit()">
+
+<form method="get" class="search-panel" style="margin-bottom:1.5rem">
+  <label for="id_status">Holat bo'yicha filtr</label>
+  <select name="status" id="id_status" onchange="this.form.submit()">
     <option value="">Barcha holatlar</option>
     <option value="PENDING" {% if status == 'PENDING' %}selected{% endif %}>Kutilmoqda</option>
     <option value="CONFIRMED" {% if status == 'CONFIRMED' %}selected{% endif %}>Tasdiqlangan</option>
     <option value="COMPLETED" {% if status == 'COMPLETED' %}selected{% endif %}>Yakunlangan</option>
     <option value="CANCELLED" {% if status == 'CANCELLED' %}selected{% endif %}>Bekor qilingan</option>
+    <option value="REJECTED" {% if status == 'REJECTED' %}selected{% endif %}>Rad etilgan</option>
+    <option value="NO_SHOW" {% if status == 'NO_SHOW' %}selected{% endif %}>Kelmadi</option>
   </select>
 </form>
-<ul>
-  {% for r in page_obj %}
-    <li>
-      #{{ r.pk }} &mdash; {{ r.table.zone.cafe.name }} / stol {{ r.table.number }}
-      &mdash; {{ r.start_time }} &mdash; {{ r.get_status_display }}
-      {% if r.status == 'PENDING' or r.status == 'CONFIRMED' %}
-        <form method="post" action="{% url 'reservations:cancel' r.pk %}" style="display:inline">
-          {% csrf_token %}
-          <button type="submit" class="btn-link">Bekor qilish</button>
-        </form>
-      {% endif %}
-    </li>
-  {% empty %}
-    <li>Bronlaringiz yo'q.</li>
-  {% endfor %}
-</ul>
 
-<div class="pagination">
-  {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}&status={{ status }}">Oldingi</a>
-  {% endif %}
-  <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-  {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}&status={{ status }}">Keyingi</a>
-  {% endif %}
-</div>
+{% if page_obj %}
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>#</th><th>Kafe / Stol</th><th>Vaqt</th><th>Holat</th><th>Amallar</th></tr>
+      </thead>
+      <tbody>
+        {% for r in page_obj %}
+          <tr>
+            <td>{{ r.pk }}</td>
+            <td>{{ r.table.zone.cafe.name }} / stol {{ r.table.number }}</td>
+            <td>{{ r.start_time|date:'d.m.Y H:i' }}</td>
+            <td><span class="badge badge-{{ r.status }}">{{ r.get_status_display }}</span></td>
+            <td>
+              {% if r.status == 'PENDING' or r.status == 'CONFIRMED' %}
+                <form method="post" action="{% url 'reservations:cancel' r.pk %}" style="display:inline">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Bekor qilish</button>
+                </form>
+              {% endif %}
+              {% if r.status == 'COMPLETED' %}
+                <a class="btn btn-accent btn-sm" href="{% url 'reviews:create' r.pk %}">Sharh qoldirish</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a class="btn btn-outline btn-sm" href="?page={{ page_obj.previous_page_number }}&status={{ status }}">Oldingi</a>
+    {% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a class="btn btn-outline btn-sm" href="?page={{ page_obj.next_page_number }}&status={{ status }}">Keyingi</a>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <i class="bi bi-calendar-x" aria-hidden="true"></i>
+    <p>Hali bronlaringiz yo'q.</p>
+    <a class="btn btn-primary" href="{% url 'reservations:search' %}">Stol bron qilish</a>
+  </div>
+{% endif %}
 {% endblock %}

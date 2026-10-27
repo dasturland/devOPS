@@ -1,36 +1,51 @@
 {% extends "base.html" %}
 {% block title %}Kunlik jadval{% endblock %}
 {% block content %}
-<h1>Kunlik jadval {% if cafe %}&mdash; {{ cafe.name }}{% endif %}</h1>
-<form method="get">
-  <input type="date" name="date" value="{{ day|date:'Y-m-d' }}">
-  <button type="submit" class="btn btn-primary">Ko'rish</button>
+<h1>Kunlik jadval {% if cafe %}— {{ cafe.name }}{% endif %}</h1>
+
+<form method="get" class="search-panel" style="margin-bottom:1.5rem">
+  <label for="id_date">Sana</label>
+  <input type="date" id="id_date" name="date" value="{{ day|date:'Y-m-d' }}">
+  <button type="submit" class="btn btn-primary btn-sm">Ko'rish</button>
 </form>
-<table>
-  <thead>
-    <tr><th>#</th><th>Stol</th><th>Mijoz</th><th>Vaqt</th><th>Holat</th><th>Amallar</th></tr>
-  </thead>
-  <tbody>
-    {% for r in reservations %}
-      <tr>
-        <td>{{ r.pk }}</td>
-        <td>{{ r.table.number }}</td>
-        <td>{{ r.customer.email }}</td>
-        <td>{{ r.start_time|time:'H:i' }}</td>
-        <td>{{ r.get_status_display }}</td>
-        <td>
-          {% if r.status == 'PENDING' %}
-            <form method="post" action="{% url 'reservations:confirm' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn-link">Tasdiqlash</button></form>
-            <form method="post" action="{% url 'reservations:reject' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn-link">Rad etish</button></form>
-          {% elif r.status == 'CONFIRMED' %}
-            <form method="post" action="{% url 'reservations:complete' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn-link">Yakunlash</button></form>
-            <form method="post" action="{% url 'reservations:no_show' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn-link">Kelmadi</button></form>
-          {% endif %}
-        </td>
-      </tr>
-    {% empty %}
-      <tr><td colspan="6">Bu kun uchun bron yo'q.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+{% if not cafe %}
+  <div class="empty-state">
+    <i class="bi bi-shop" aria-hidden="true"></i>
+    <p>Sizga biriktirilgan kafe topilmadi.</p>
+  </div>
+{% elif reservations %}
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>#</th><th>Stol</th><th>Mijoz</th><th>Vaqt</th><th>Holat</th><th>Amallar</th></tr>
+      </thead>
+      <tbody>
+        {% for r in reservations %}
+          <tr>
+            <td>{{ r.pk }}</td>
+            <td>{{ r.table.number }}</td>
+            <td>{{ r.customer.email }}</td>
+            <td>{{ r.start_time|time:'H:i' }}</td>
+            <td><span class="badge badge-{{ r.status }}">{{ r.get_status_display }}</span></td>
+            <td>
+              {% if r.status == 'PENDING' %}
+                <form method="post" action="{% url 'reservations:confirm' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn btn-primary btn-sm">Tasdiqlash</button></form>
+                <form method="post" action="{% url 'reservations:reject' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn btn-outline btn-sm">Rad etish</button></form>
+              {% elif r.status == 'CONFIRMED' %}
+                <form method="post" action="{% url 'reservations:complete' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn btn-primary btn-sm">Yakunlash</button></form>
+                <form method="post" action="{% url 'reservations:no_show' r.pk %}" style="display:inline">{% csrf_token %}<button class="btn btn-outline btn-sm">Kelmadi</button></form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="empty-state">
+    <i class="bi bi-calendar-check" aria-hidden="true"></i>
+    <p>Bu kun uchun bron yo'q.</p>
+  </div>
+{% endif %}
 {% endblock %}

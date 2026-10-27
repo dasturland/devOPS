@@ -1,12 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Kirish{% endblock %}
 {% block content %}
-<h1>Tizimga kirish</h1>
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Kirish</button>
-</form>
-<p><a href="{% url 'accounts:password_reset' %}">Parolni unutdingizmi?</a></p>
-<p>Hisobingiz yo'qmi? <a href="{% url 'accounts:register' %}">Ro'yxatdan o'ting</a></p>
+<div class="card auth-card">
+  <h1>Tizimga kirish</h1>
+  <form method="post" class="form-stack" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-row">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+    {% endfor %}
+    {% if form.non_field_errors %}<ul class="errorlist">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    <button type="submit" class="btn btn-primary btn-block"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Kirish</button>
+  </form>
+  <p style="margin-top:1rem"><a href="{% url 'accounts:password_reset' %}">Parolni unutdingizmi?</a></p>
+  <p>Hisobingiz yo'qmi? <a href="{% url 'accounts:register' %}">Ro'yxatdan o'ting</a></p>
+</div>
 {% endblock %}
