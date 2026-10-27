@@ -35,7 +35,7 @@ def add_exclusion_constraint(apps, schema_editor):  # noqa: ANN001, ARG001
             table_id WITH =,
             tstzrange(
                 start_time,
-                start_time + (duration_minutes || ' minutes')::interval
+                start_time + make_interval(mins => duration_minutes)
             ) WITH &&
         )
         WHERE (status IN ('PENDING', 'CONFIRMED'))
