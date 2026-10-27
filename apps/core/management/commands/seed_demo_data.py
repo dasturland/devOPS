@@ -73,20 +73,17 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Demo ma'lumotlar tayyor."))
         self.stdout.write("")
-        self.stdout.write("Demo akkauntlar (parol: %s):" % DEMO_PASSWORD)
+        self.stdout.write(f"Demo akkauntlar (parol: {DEMO_PASSWORD}):")
         self.stdout.write("  Admin     : admin@tablereserve.uz")
         self.stdout.write("  Menejer 1 : manager1@tablereserve.uz")
         self.stdout.write("  Menejer 2 : manager2@tablereserve.uz")
         self.stdout.write("  Mijozlar  : customer1..5@tablereserve.uz")
         self.stdout.write("")
         self.stdout.write(
-            "Yaratilgan: %d kafe, %d stol, %d bron, %d sharh."
-            % (
-                Cafe.objects.count(),
-                Table.objects.count(),
-                Reservation.objects.count(),
-                Review.objects.count(),
-            )
+            f"Yaratilgan: {Cafe.objects.count()} kafe, "
+            f"{Table.objects.count()} stol, "
+            f"{Reservation.objects.count()} bron, "
+            f"{Review.objects.count()} sharh."
         )
         # Keep the admin reference silent-used so linters stay happy.
         assert admin.pk is not None

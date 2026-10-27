@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import datetime
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -58,7 +59,7 @@ def book_view(request: HttpRequest) -> HttpResponse:
             datetime.combine(data["date"], data["start_time"])
         )
         try:
-            reservation = services.create_reservation(
+            services.create_reservation(
                 request.user,
                 {
                     "table": data["table"],
