@@ -1,0 +1,4 @@
+-r base.txt
+
+# Production-only dependencies (pinned per NFR-10).
+# psycopg2-binary and gunicorn/whitenoise already provided by base.txt.

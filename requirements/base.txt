@@ -1,0 +1,10 @@
+# Core runtime dependencies (pinned per NFR-10).
+Django==5.1.4
+djangorestframework==3.15.2
+drf-spectacular==0.28.0
+django-filter==24.3
+psycopg2-binary==2.9.10
+Pillow==11.0.0
+python-dotenv==1.0.1
+gunicorn==23.0.0
+whitenoise==6.8.2
