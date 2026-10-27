@@ -38,13 +38,13 @@ fazaga tayanadi.
 
 ## Faza 1. Muhit, bog'liqliklar va Django skeleti
 
-- [ ] **1.1. Katalog skeletini yaratish.** `design.md` §9 dagi tuzilmaga mos ravishda
+- [x] **1.1. Katalog skeletini yaratish.** `design.md` §9 dagi tuzilmaga mos ravishda
   `config/`, `apps/`, `templates/`, `static/`, `docs/`, `docs/diagrams/`,
   `requirements/`, `scripts/`, `tests/`, `.github/workflows/` papkalarini va har bir
   `apps/<app>` ichidagi `__init__.py` ni yaratish.
   *Tekshirish:* `find` bilan barcha papkalar mavjudligi; har bir Python paketi
   `__init__.py` ga ega. (`design.md` §7, §9)
-- [ ] **1.2. Pinned bog'liqliklar fayllari.** `requirements/base.txt` (Django 5.x,
+- [x] **1.2. Pinned bog'liqliklar fayllari.** `requirements/base.txt` (Django 5.x,
   djangorestframework, drf-spectacular, django-filter, psycopg2-binary, Pillow,
   python-dotenv/django-environ, gunicorn, whitenoise), `requirements/dev.txt`
   (`-r base.txt` + pytest, pytest-django, pytest-cov, factory_boy, ruff, mypy,
@@ -52,50 +52,50 @@ fazaga tayanadi.
   Barcha versiyalar qat'iy pin (`==`) qilinadi.
   *Tekshirish:* har bir qator `paket==versiya` ko'rinishida; `pip install -r
   requirements/dev.txt` xatosiz. (`NFR-10`, `NFR-11`, `design.md` §9)
-- [ ] **1.3. `pyproject.toml` konfiguratsiyasi.** `ruff` (lint + format qoidalari,
+- [x] **1.3. `pyproject.toml` konfiguratsiyasi.** `ruff` (lint + format qoidalari,
   target 3.11), `mypy` (django-stubs plugin, strict-ish), `pytest`
   (`DJANGO_SETTINGS_MODULE=config.settings.test`, `--cov`, testpaths), va
   `coverage` (`fail_under = 80`) bo'limlarini yozish.
   *Tekshirish:* `ruff check`, `mypy` va `pytest` konfiguratsiyani o'qiydi; xato bermaydi.
   (`NFR-05`, `NFR-09`, `NFR-10`)
-- [ ] **1.4. `.env.example` yaratish.** `SECRET_KEY`, `DJANGO_SETTINGS_MODULE`,
+- [x] **1.4. `.env.example` yaratish.** `SECRET_KEY`, `DJANGO_SETTINGS_MODULE`,
   `DEBUG`, `ALLOWED_HOSTS`, `DATABASE_URL`/`POSTGRES_*`, `EMAIL_*`,
   `DJANGO_LOG_LEVEL`, `CSRF_TRUSTED_ORIGINS` namunaviy (sirlar yo'q) o'zgaruvchilar
   bilan. Haqiqiy `.env` `.gitignore` ga qo'shiladi.
   *Tekshirish:* fayl mavjud, sir qiymat yo'q; `.gitignore` `.env` ni istisno qiladi.
   (`NFR-02`)
-- [ ] **1.5. `manage.py` va `config/` paketi.** `manage.py` (default
+- [x] **1.5. `manage.py` va `config/` paketi.** `manage.py` (default
   `config.settings.dev`), `config/__init__.py`, `config/wsgi.py`, `config/asgi.py`
   yaratish.
   *Tekshirish:* `python manage.py --help` ishlaydi. (`design.md` §9)
 
 ## Faza 2. Sozlamalar (settings split), URL va logging
 
-- [ ] **2.1. `config/settings/base.py`.** Umumiy sozlamalar: `INSTALLED_APPS`
+- [x] **2.1. `config/settings/base.py`.** Umumiy sozlamalar: `INSTALLED_APPS`
   (barcha `apps.*`, DRF, drf-spectacular, django-filter), `AUTH_USER_MODEL =
   "accounts.User"`, `.env` dan sir o'qish, `TEMPLATES`, `STATIC`/`MEDIA`,
   `REST_FRAMEWORK` (Token + Session auth, drf-spectacular schema class),
   `SPECTACULAR_SETTINGS`, til/time zone.
   *Tekshirish:* `python manage.py check` xatosiz. (`FR-06`, `FR-24`, `NFR-11`,
   `design.md` §2.2, §8.1)
-- [ ] **2.2. `config/settings/dev.py`.** `DEBUG=True`, SQLite baza, console email
+- [x] **2.2. `config/settings/dev.py`.** `DEBUG=True`, SQLite baza, console email
   backend, `DJANGO_LOG_LEVEL=DEBUG`.
   *Tekshirish:* `DJANGO_SETTINGS_MODULE=config.settings.dev python manage.py check`
   xatosiz. (`FR-27`, `NFR-11`)
-- [ ] **2.3. `config/settings/prod.py`.** PostgreSQL baza, SMTP email, xavfsizlik
+- [x] **2.3. `config/settings/prod.py`.** PostgreSQL baza, SMTP email, xavfsizlik
   sarlavhalari: `DEBUG=False`, `ALLOWED_HOSTS`, `SECURE_SSL_REDIRECT`,
   `SECURE_HSTS_*`, `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`,
   `CSRF_TRUSTED_ORIGINS`; whitenoise static.
   *Tekshirish:* `python manage.py check --deploy` ogohlantirishsiz o'tadi. (`NFR-02`,
   `NFR-11`, `design.md` §9)
-- [ ] **2.4. `config/settings/test.py`.** Tez test sozlamalari (in-memory yoki tezroq
+- [x] **2.4. `config/settings/test.py`.** Tez test sozlamalari (in-memory yoki tezroq
   hasher, SQLite, email `locmem`).
   *Tekshirish:* `pytest` shu sozlama bilan yuklanadi. (`NFR-05`)
-- [ ] **2.5. `config/urls.py` root URLConf.** `/admin/`, `/health/`, `/api/`
+- [x] **2.5. `config/urls.py` root URLConf.** `/admin/`, `/health/`, `/api/`
   (api ilovasi), web ilova URL'lari; `handler403/404/500` ni ro'yxatdan o'tkazish.
   *Tekshirish:* `python manage.py show_urls` yoki `check` orqali URL'lar yuklanadi.
   (`FR-25`, `FR-29`, `design.md` §10.1)
-- [ ] **2.6. LOGGING konfiguratsiyasi.** `base.py` da `console` handler (barcha
+- [x] **2.6. LOGGING konfiguratsiyasi.** `base.py` da `console` handler (barcha
   muhit) va aylanuvchi `file` handler (`logs/app.log`); daraja
   `DJANGO_LOG_LEVEL` orqali.
   *Tekshirish:* ishga tushganda log konfiguratsiya xatosi yo'q; test ichida log
@@ -103,106 +103,106 @@ fazaga tayanadi.
 
 ## Faza 3. `core` ilovasi (abstrakt model, audit, istisnolar, health, xato sahifalar)
 
-- [ ] **3.1. `core/models.py`.** `TimeStampedModel` (abstrakt, `created_at`
+- [x] **3.1. `core/models.py`.** `TimeStampedModel` (abstrakt, `created_at`
   `auto_now_add` + `db_index`, `updated_at` `auto_now`) va `AuditLog` modeli
   (`actor`, `action`, `object_type`, `object_id`, `changes` JSON, `created_at`) +
   `AuditAction` TextChoices (`CREATE/UPDATE/DELETE`).
   *Tekshirish:* `makemigrations core` migratsiya yaratadi; `migrate` o'tadi.
   (`FR-26`, `design.md` §3.2, §3.8)
-- [ ] **3.2. `core/exceptions.py`.** Domen istisnolari: `ValidationError`,
+- [x] **3.2. `core/exceptions.py`.** Domen istisnolari: `ValidationError`,
   `ConflictError`, `InvalidTransitionError`, `PermissionError` (o'zbekcha xabarlar bilan).
   *Tekshirish:* import va `raise` unit-testda ishlaydi. (`FR-13`, `FR-16`, `FR-29`,
   `design.md` §10.1)
-- [ ] **3.3. `core/mixins.py`.** Umumiy view mixinlari (rolга asoslangan kirishni
+- [x] **3.3. `core/mixins.py`.** Umumiy view mixinlari (rolга asoslangan kirishni
   tekshiruvchi `LoginRequired`/role mixinlar, audit yordamchi mixin).
   *Tekshirish:* mixin importlanadi va view testida qo'llanadi. (`FR-06`, `FR-07`,
   `design.md` §7)
-- [ ] **3.4. `core/services.py`.** `record_audit(actor, action, instance, changes)`,
+- [x] **3.4. `core/services.py`.** `record_audit(actor, action, instance, changes)`,
   `send_notification(user, template, context)`, `check_database()`.
   *Tekshirish:* `record_audit` `AuditLog` yozuvi yaratadi; `send_notification`
   `locmem` backendga xabar yozadi; `check_database` SELECT 1 bajaradi (unit-test).
   (`FR-25`, `FR-26`, `FR-27`, `design.md` §4)
-- [ ] **3.5. `core/views.py` health-check.** `GET /health/` -> `health_check`:
+- [x] **3.5. `core/views.py` health-check.** `GET /health/` -> `health_check`:
   DB `SELECT 1`; muvaffaqiyat 200 `{"status":"ok","database":"ok"}`, nosozlikda 503
   `{"status":"error","database":"down"}`.
   *Tekshirish:* test `/health/` 200 qaytarishini va JSON tanani tekshiradi. (`FR-25`,
   `design.md` §10.3)
-- [ ] **3.6. Xato handlerlari va shablonlari.** `handler403/404/500` funksiyalari
+- [x] **3.6. Xato handlerlari va shablonlari.** `handler403/404/500` funksiyalari
   va `templates/errors/403.html`, `404.html`, `500.html` (mavzuga mos dizayn).
   *Tekshirish:* `DEBUG=False` da noto'g'ri URL 404 shablonini ko'rsatadi (test).
   (`FR-29`, `design.md` §10.1)
 
 ## Faza 4. `accounts` ilovasi (User, auth, RBAC)
 
-- [ ] **4.1. `accounts/models.py` va `managers.py`.** `User(AbstractUser)` +
+- [x] **4.1. `accounts/models.py` va `managers.py`.** `User(AbstractUser)` +
   `role`, `phone`; `email` `USERNAME_FIELD` (unique); `Role` TextChoices
   (`ADMIN/MANAGER/CUSTOMER/WAITER`); `UserManager` (`create_user`/`create_superuser`
   email asosida); `is_admin/is_manager/is_customer/is_waiter` xususiyatlari;
   `role` indeksi.
   *Tekshirish:* `makemigrations`/`migrate`; test email bilan user yaratadi. (`FR-01`,
   `FR-06`, `design.md` §3.3)
-- [ ] **4.2. `accounts/services.py`.** `register_customer(data)`,
+- [x] **4.2. `accounts/services.py`.** `register_customer(data)`,
   `change_password(user, old, new)`, `issue_password_reset(email)`,
   `confirm_password_reset(token, new)`.
   *Tekshirish:* unit-testlar ro'yxat, parol o'zgartirish va tiklash oqimini qoplaydi;
   mavjud bo'lmagan email mavjudlikni oshkor qilmaydi. (`FR-01`, `FR-04`, `FR-05`,
   `design.md` §4)
-- [ ] **4.3. `accounts/forms.py`.** Registratsiya, login, parol o'zgartirish/tiklash,
+- [x] **4.3. `accounts/forms.py`.** Registratsiya, login, parol o'zgartirish/tiklash,
   profil formalari (Django parol validatorlari bilan).
   *Tekshirish:* form validatsiyasi testda ishlaydi. (`FR-01`, `FR-04`, `NFR-01`)
-- [ ] **4.4. `accounts/views.py` va `urls.py`.** Login, logout, register, profil
+- [x] **4.4. `accounts/views.py` va `urls.py`.** Login, logout, register, profil
   view'lari va rolга mos yo'naltirish.
   *Tekshirish:* view testlari login/logout/register/profil oqimini qoplaydi.
   (`FR-02`, `FR-03`, `design.md` §7)
-- [ ] **4.5. `accounts/permissions.py` (DRF).** `IsAdmin`, `IsManager`,
+- [x] **4.5. `accounts/permissions.py` (DRF).** `IsAdmin`, `IsManager`,
   `IsManagerOfCafe`, `IsCustomer`, `IsOwnerOrReadOnly`.
   *Tekshirish:* permission testlari har rol uchun ruxsat/rad holatini qoplaydi.
   (`FR-06`, `FR-07`, `design.md` §8.1)
-- [ ] **4.6. `accounts/serializers.py` va admin ro'yxatga olish.** User serializer;
+- [x] **4.6. `accounts/serializers.py` va admin ro'yxatga olish.** User serializer;
   `admin.py` da `User` va `AuditLog` (read-only) ro'yxatga olinadi.
   *Tekshirish:* admin paneldan `AuditLog` read-only ko'rinadi (test/manual).
   (`FR-24`, `FR-26`)
 
 ## Faza 5. `cafes` ilovasi (Cafe, Zone)
 
-- [ ] **5.1. `cafes/models.py`.** `Cafe` (manager FK `PROTECT`, `slug` unique,
+- [x] **5.1. `cafes/models.py`.** `Cafe` (manager FK `PROTECT`, `slug` unique,
   `opening_time`/`closing_time`, `image`, `is_active`) va `Zone` (cafe FK CASCADE,
   `zone_type`); `ZoneType` TextChoices; `UniqueConstraint(cafe,name)`; indekslar
   (`slug`, `is_active`, `name`).
   *Tekshirish:* `makemigrations`/`migrate`; cheklov testi dublikat zonani rad etadi.
   (`FR-08`, `FR-09`, `design.md` §3.4)
-- [ ] **5.2. `cafes/services.py`.** `create_cafe`, `update_cafe`, `manage_zone`,
+- [x] **5.2. `cafes/services.py`.** `create_cafe`, `update_cafe`, `manage_zone`,
   `cafe_average_rating(cafe)` (annotation orqali).
   *Tekshirish:* servis testlari CRUD va o'rtacha reytingni tekshiradi. (`FR-08`,
   `FR-09`, `FR-21`, `design.md` §4)
-- [ ] **5.3. `cafes/forms.py`, `views.py`, `urls.py`.** Kafe/zona CRUD view'lari
+- [x] **5.3. `cafes/forms.py`, `views.py`, `urls.py`.** Kafe/zona CRUD view'lari
   (ruxsat: ADMIN yoki tegishli MANAGER).
   *Tekshirish:* view testlari CRUD va ruxsatni qoplaydi. (`FR-08`, `FR-09`, `FR-07`)
-- [ ] **5.4. `cafes/serializers.py` va `filters.py`.** DRF serializerlar va
+- [x] **5.4. `cafes/serializers.py` va `filters.py`.** DRF serializerlar va
   `django-filter` filtrlari (nom/manzil bo'yicha qidiruv, saralash).
   *Tekshirish:* API ro'yxat filtr/qidiruvni qaytaradi (test). (`FR-23`, `FR-24`,
   `NFR-03`)
 
 ## Faza 6. `tables` ilovasi (Table)
 
-- [ ] **6.1. `tables/models.py`.** `Table` (zone FK CASCADE, `number`, `capacity`,
+- [x] **6.1. `tables/models.py`.** `Table` (zone FK CASCADE, `number`, `capacity`,
   `status`); `TableStatus` TextChoices (`AVAILABLE/INACTIVE`);
   `CheckConstraint(capacity>=1)`, `UniqueConstraint(zone,number)`; `(zone,status)`
   indeksi; `cafe` xususiyati.
   *Tekshirish:* `makemigrations`/`migrate`; `capacity=0` va dublikat raqam cheklov
   xatosi beradi (test). (`FR-10`, `design.md` §3.5)
-- [ ] **6.2. `tables/services.py`.** `create_table`,
+- [x] **6.2. `tables/services.py`.** `create_table`,
   `ensure_unique_number(cafe, number)` (kafe doirasida takrorlanmaslik).
   *Tekshirish:* servis testi kafe bo'yicha takroriy raqamni rad etadi. (`FR-10`,
   `design.md` §4)
-- [ ] **6.3. `tables/forms.py`, `views.py`, `serializers.py`, `urls.py`.** Stol CRUD
+- [x] **6.3. `tables/forms.py`, `views.py`, `serializers.py`, `urls.py`.** Stol CRUD
   view va API (ruxsat: tegishli MANAGER/ADMIN).
   *Tekshirish:* view va API testlari CRUD va ruxsatni qoplaydi. (`FR-10`, `FR-07`,
   `FR-24`)
 
 ## Faza 7. `reservations` ilovasi (qidiruv, bron wizardi, to'qnashuv, holat mashinasi)
 
-- [ ] **7.1. `reservations/models.py` va `managers.py`.** `Reservation` (customer FK
+- [x] **7.1. `reservations/models.py` va `managers.py`.** `Reservation` (customer FK
   `PROTECT`, table FK `PROTECT`, `start_time` indeksli, `duration_minutes`,
   `guests_count`, `status`, `note`, `time_range` DateTimeRangeField);
   `ReservationStatus` TextChoices (6 holat); `end_time` xususiyati;
@@ -212,13 +212,13 @@ fazaga tayanadi.
   *Tekshirish:* `makemigrations`/`migrate`; QuerySet metodlari testda ishlaydi;
   cheklov testlari o'tadi. (`FR-12`, `FR-15`, `FR-16`, `FR-19`, `FR-20`, `NFR-03`,
   `design.md` §3.6)
-- [ ] **7.2. Shartli ExclusionConstraint migratsiyasi.** `btree_gist` kengaytmasi va
+- [x] **7.2. Shartli ExclusionConstraint migratsiyasi.** `btree_gist` kengaytmasi va
   `ExclusionConstraint` (bir xil `table`, faol status uchun `time_range` kesishmasin)
   ni **faqat** `connection.vendor == "postgresql"` bo'lganda qo'llaydigan
   shartli migratsiya operatsiyasi; SQLite'da e'tiborsiz qoldiriladi.
   *Tekshirish:* `makemigrations --check` toza; SQLite'da `migrate` o'tadi, Postgres
   muhitida cheklov yaratiladi (test). (`FR-13`, `NFR-11`, `design.md` §5.1)
-- [ ] **7.3. `reservations/services.py` qidiruv va yaratish.**
+- [x] **7.3. `reservations/services.py` qidiruv va yaratish.**
   `search_available_tables(criteria)` (sana/vaqt/davomiylik/guests/zona bo'yicha,
   `select_related`/`prefetch_related` bilan) va `create_reservation(customer, data)`
   (`transaction.atomic` + `select_for_update`; ish vaqti/o'tmish `FR-14`, sig'im
@@ -226,20 +226,20 @@ fazaga tayanadi.
   *Tekshirish:* servis testlari off-hours, o'tmish, sig'imdan oshish va to'qnashuv
   edge-case'larini qoplaydi. (`FR-11`, `FR-12`, `FR-13`, `FR-14`, `FR-15`,
   `design.md` §5.2, §5.3)
-- [ ] **7.4. `reservations/services.py` holat mashinasi.**
+- [x] **7.4. `reservations/services.py` holat mashinasi.**
   `transition(reservation, target, actor)` (qonuniy o'tishlar jadvali, noqonuniyda
   `InvalidTransitionError`), hamda `confirm`, `reject`, `cancel` (2 soat qoidasi
   `FR-18`), `complete`, `mark_no_show`; har o'tishda `record_audit` +
   `send_notification`.
   *Tekshirish:* servis testlari qonuniy/noqonuniy o'tishlar, 2 soat qoidasi va
   kafe egaligini qoplaydi. (`FR-16`, `FR-17`, `FR-18`, `FR-27`, `design.md` §6)
-- [ ] **7.5. `reservations/forms.py`, `views.py`, `urls.py` (3 qadamli wizard).**
+- [x] **7.5. `reservations/forms.py`, `views.py`, `urls.py` (3 qadamli wizard).**
   Vaqt -> stol -> tasdiqlash wizardi; "Mening bronlarim" (filtr/pagination `FR-19`);
   menejer kunlik jadvali va stol bandligi (`FR-20`); action view'lari
   (confirm/reject/cancel/complete/no-show).
   *Tekshirish:* view testlari wizard oqimi, mening bronlarim va manager jadvalini
   qoplaydi. (`FR-12`, `FR-19`, `FR-20`, `design.md` §7)
-- [ ] **7.6. `reservations/serializers.py`, `filters.py`, action endpointlari.** DRF
+- [x] **7.6. `reservations/serializers.py`, `filters.py`, action endpointlari.** DRF
   reservation serializer, filtrlar va
   `/reservations/{id}/{confirm,reject,cancel,complete,no-show}/` action'lari (rolга
   qarab ruxsat).
@@ -248,40 +248,40 @@ fazaga tayanadi.
 
 ## Faza 8. `reviews` ilovasi (Review)
 
-- [ ] **8.1. `reviews/models.py`.** `Review` (reservation OneToOne CASCADE, cafe FK,
+- [x] **8.1. `reviews/models.py`.** `Review` (reservation OneToOne CASCADE, cafe FK,
   author FK, `rating`, `comment`); `CheckConstraint(1<=rating<=5)`; `(cafe,rating)`
   indeksi.
   *Tekshirish:* `makemigrations`/`migrate`; `rating=0`/`6` cheklov xatosi (test).
   (`FR-21`, `design.md` §3.7)
-- [ ] **8.2. `reviews/services.py`.** `create_review(customer, reservation, rating,
+- [x] **8.2. `reviews/services.py`.** `create_review(customer, reservation, rating,
   comment)`: faqat `reservation.status == COMPLETED` va `author == reservation.customer`,
   va bir marta.
   *Tekshirish:* servis testi COMPLETED bo'lmagan bron, boshqa muallif va takroriy
   sharhni rad etadi. (`FR-21`, `design.md` §6.3)
-- [ ] **8.3. `reviews/forms.py`, `views.py`, `serializers.py`, `urls.py`.** Sharh
+- [x] **8.3. `reviews/forms.py`, `views.py`, `serializers.py`, `urls.py`.** Sharh
   qoldirish view va API (POST uchun `IsCustomer` + COMPLETED).
   *Tekshirish:* view/API testlari sharh qoidasini qoplaydi. (`FR-21`, `FR-24`)
 
 ## Faza 9. `dashboard` ilovasi (statistika, grafiklar)
 
-- [ ] **9.1. `dashboard/services.py`.** `admin_stats(date_range)`,
+- [x] **9.1. `dashboard/services.py`.** `admin_stats(date_range)`,
   `manager_daily_schedule(cafe, date)`, `cancellation_rate`, `busiest_tables`
   (real ma'lumotlardan hisoblanadi).
   *Tekshirish:* servis testlari sanalar oralig'i bo'yicha to'g'ri agregatsiyani
   tekshiradi. (`FR-20`, `FR-22`, `design.md` §4)
-- [ ] **9.2. `dashboard/views.py`, `urls.py`, `templatetags/`.** Admin/menejer
+- [x] **9.2. `dashboard/views.py`, `urls.py`, `templatetags/`.** Admin/menejer
   dashboard view'lari; sana filtri; Chart.js uchun kontekst; statistik kartalar.
   *Tekshirish:* view testi ADMIN uchun statistika sahifasini va sana filtrini
   qoplaydi; ruxsatsiz rol 403 oladi. (`FR-22`, `FR-07`)
 
 ## Faza 10. `api` ilovasi (DRF yig'indisi, OpenAPI)
 
-- [ ] **10.1. `api/routers.py` va `api/urls.py`.** Barcha domen ViewSet'larini
+- [x] **10.1. `api/routers.py` va `api/urls.py`.** Barcha domen ViewSet'larini
   `/api/v1/` ostida yig'ish (cafes, zones, tables, availability, reservations +
   action'lar, reviews) `design.md` §8.2 jadvaliga mos.
   *Tekshirish:* `GET /api/v1/` router root ishlaydi; endpointlar testda mavjud.
   (`FR-24`, `design.md` §8.2)
-- [ ] **10.2. `api/schema.py` va OpenAPI.** `drf-spectacular` orqali
+- [x] **10.2. `api/schema.py` va OpenAPI.** `drf-spectacular` orqali
   `/api/schema/` va `/api/docs/` (Swagger UI); Token + Session auth; `@extend_schema`
   bilan o'zbekcha tavsiflar.
   *Tekshirish:* `/api/schema/` va `/api/docs/` 200 qaytaradi (test); schema
