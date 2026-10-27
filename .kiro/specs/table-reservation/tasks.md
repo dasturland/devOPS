@@ -421,22 +421,22 @@ fazaga tayanadi.
 
 ## Faza 17. Repo meta fayllari
 
-- [ ] **17.1. `.github/dependabot.yml`.** pip va github-actions ekotizimlari uchun
+- [x] **17.1. `.github/dependabot.yml`.** pip va github-actions ekotizimlari uchun
   yangilanish jadvali.
   *Tekshirish:* YAML toza va to'g'ri ekotizimlar. (`NFR-07`, `NFR-10`)
-- [ ] **17.2. PR va issue shablonlari.** `.github/PULL_REQUEST_TEMPLATE.md` va
+- [x] **17.2. PR va issue shablonlari.** `.github/PULL_REQUEST_TEMPLATE.md` va
   `.github/ISSUE_TEMPLATE/` (bug/feature).
   *Tekshirish:* fayllar mavjud va to'g'ri formatda. (`NFR-07`)
-- [ ] **17.3. `.github/CODEOWNERS` va `.github/labeler.yml` config.** Kod egalari va
+- [x] **17.3. `.github/CODEOWNERS` va `.github/labeler.yml` config.** Kod egalari va
   yorliqlash qoidalari.
   *Tekshirish:* fayllar mavjud; labeler config 16.8 bilan mos. (`NFR-07`)
-- [ ] **17.4. `.pre-commit-config.yaml`.** ruff (lint + format) va mypy hook'lari.
+- [x] **17.4. `.pre-commit-config.yaml`.** ruff (lint + format) va mypy hook'lari.
   *Tekshirish:* `pre-commit run --all-files` lokal ishlaydi. (`NFR-09`)
-- [ ] **17.5. `Makefile`.** Maqsadlar: `install`, `migrate`, `seed`, `run`, `lint`,
+- [x] **17.5. `Makefile`.** Maqsadlar: `install`, `migrate`, `seed`, `run`, `lint`,
   `format`, `type`, `test`, `diagrams`, `docker-build`, `docker-up`.
   *Tekshirish:* `make lint`, `make test`, `make diagrams` ishlaydi. (`NFR-07`,
   `NFR-09`, `NFR-12`)
-- [ ] **17.6. `LICENSE` (MIT).** MIT litsenziya fayli.
+- [x] **17.6. `LICENSE` (MIT).** MIT litsenziya fayli.
   *Tekshirish:* fayl mavjud, MIT matni to'liq. (`NFR-12`)
 
 ## Faza 18. Steering fayllari

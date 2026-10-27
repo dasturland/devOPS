@@ -1,0 +1,42 @@
+# PR path-based labelling rules consumed by .github/workflows/labeler.yml.
+backend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "apps/**"
+          - "config/**"
+
+frontend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "templates/**"
+          - "static/**"
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "tests/**"
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+
+docker:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "Dockerfile"
+          - "docker-compose*.yml"
+          - "entrypoint.sh"
+          - "nginx/**"
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**"
+          - "**/*.md"
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "requirements/**"
+          - "pyproject.toml"

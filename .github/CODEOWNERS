@@ -1,0 +1,10 @@
+# Default code owners for the repository. GitHub requests their review on PRs.
+# Replace @dasturland with specific teams/users as the project grows.
+
+*               @dasturland
+
+# Domain-specific ownership.
+/apps/          @dasturland
+/config/        @dasturland
+/.github/       @dasturland
+/docs/          @dasturland
