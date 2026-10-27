@@ -32,6 +32,14 @@ else:
         }
     }
 
+# Use the plain staticfiles backend so templates can resolve ``{% static %}``
+# without a collectstatic-built manifest (base.py uses whitenoise's manifest
+# storage, which raises on missing manifest entries during tests).
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+}
+
 # The fastest hasher drastically speeds up user-creation in tests.
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 

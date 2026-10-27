@@ -46,9 +46,14 @@ def cancellation_rate(date_from: date, date_to: date) -> float:
 
 def busiest_tables(date_from: date, date_to: date, limit: int = 5) -> list[dict[str, Any]]:
     """Return the most-reserved tables for a date range (FR-22)."""
-    rows = Reservation.objects.filter(
-        start_time__date__gte=date_from, start_time__date__lte=date_to
-    ).values("table_id", "table__number").annotate(count=Count("id")).order_by("-count")[:limit]
+    rows = (
+        Reservation.objects.filter(
+            start_time__date__gte=date_from, start_time__date__lte=date_to
+        )
+        .values("table_id", "table__number")
+        .annotate(count=Count("id"))
+        .order_by("-count")[:limit]
+    )
     return [
         {"table_id": r["table_id"], "number": r["table__number"], "count": r["count"]} for r in rows
     ]
