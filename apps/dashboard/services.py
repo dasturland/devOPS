@@ -39,7 +39,7 @@ def cancellation_rate(date_from: date, date_to: date) -> float:
     if total == 0:
         return 0.0
     cancelled = qs.filter(
-        status__in=[ReservationStatus.CANCELLED, ReservationStatus.NO_SHOW]
+        status__in=[ReservationStatus.CANCELLED, ReservationStatus.NO_SHOW],
     ).count()
     return round(cancelled / total * 100, 2)
 
