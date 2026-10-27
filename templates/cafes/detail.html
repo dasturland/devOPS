@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ cafe.name }}{% endblock %}
+{% block content %}
+<h1>{{ cafe.name }}</h1>
+<p>{{ cafe.address }} &middot; {{ cafe.phone }}</p>
+<p>Ish vaqti: {{ cafe.opening_time }} &ndash; {{ cafe.closing_time }}</p>
+<p>O'rtacha reyting: {{ average_rating }}</p>
+{% if cafe.description %}<p>{{ cafe.description }}</p>{% endif %}
+
+<h2>Zonalar</h2>
+<ul>
+  {% for zone in cafe.zones.all %}
+    <li>{{ zone.name }} ({{ zone.get_zone_type_display }})</li>
+  {% empty %}
+    <li>Zonalar yo'q.</li>
+  {% endfor %}
+</ul>
+
+{% if can_manage %}
+  <p><a class="btn btn-primary" href="{% url 'cafes:zone_create' cafe.slug %}">Zona qo'shish</a></p>
+{% endif %}
+{% endblock %}

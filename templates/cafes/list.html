@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Kafelar{% endblock %}
+{% block content %}
+<h1>Kafelar</h1>
+<form method="get" class="search-form">
+  <input type="text" name="q" value="{{ query }}" placeholder="Kafe nomi bo'yicha qidirish">
+  <button type="submit" class="btn btn-primary">Qidirish</button>
+</form>
+{% if perms or user.is_authenticated %}
+  <p><a class="btn btn-primary" href="{% url 'cafes:create' %}">Yangi kafe</a></p>
+{% endif %}
+<ul class="cafe-list">
+  {% for cafe in cafes %}
+    <li><a href="{% url 'cafes:detail' cafe.slug %}">{{ cafe.name }}</a> &mdash; {{ cafe.address }}</li>
+  {% empty %}
+    <li>Hozircha kafelar yo'q.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
