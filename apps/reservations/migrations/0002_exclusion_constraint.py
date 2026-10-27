@@ -33,7 +33,7 @@ def add_exclusion_constraint(apps, schema_editor):  # noqa: ANN001, ARG001
         ADD CONSTRAINT excl_overlapping_active_reservation
         EXCLUDE USING gist (
             table_id WITH =,
-            tsrange(
+            tstzrange(
                 start_time,
                 start_time + (duration_minutes || ' minutes')::interval
             ) WITH &&
