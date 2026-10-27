@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Bo'sh stol qidirish{% endblock %}
+{% block content %}
+<h1>Bo'sh stol qidirish</h1>
+<form method="get" novalidate>
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Qidirish</button>
+</form>
+
+{% if searched %}
+  <h2>Natijalar</h2>
+  <ul>
+    {% for table in tables %}
+      <li>
+        {{ table.zone.cafe.name }} &mdash; {{ table.zone.name }} / stol {{ table.number }}
+        ({{ table.capacity }} kishi)
+        <form method="post" action="{% url 'reservations:book' %}" style="display:inline">
+          {% csrf_token %}
+          <input type="hidden" name="table" value="{{ table.pk }}">
+          <input type="hidden" name="date" value="{{ form.cleaned_data.date|date:'Y-m-d' }}">
+          <input type="hidden" name="start_time" value="{{ form.cleaned_data.start_time|time:'H:i' }}">
+          <input type="hidden" name="duration_minutes" value="{{ form.cleaned_data.duration_minutes }}">
+          <input type="hidden" name="guests_count" value="{{ form.cleaned_data.guests_count }}">
+          <button type="submit" class="btn btn-primary">Tanlash</button>
+        </form>
+      </li>
+    {% empty %}
+      <li>Tanlangan vaqt uchun bo'sh stol topilmadi.</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

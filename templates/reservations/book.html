@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Bronni tasdiqlash{% endblock %}
+{% block content %}
+<h1>Bronni tasdiqlash</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Bron qilish</button>
+</form>
+{% endblock %}
