@@ -33,8 +33,12 @@ jobs:
 
       - name: Deploy to staging
         # The real deploy command runs on the server. Only the specific vars /
-        # secrets a step needs are referenced — never a full environment dump.
+        # secrets a step needs are referenced, never a full environment dump.
         run: |
+          if [ -z "$STAGING_HOST" ]; then
+            echo "STAGING_HOST not configured; skipping staging deploy."
+            exit 0
+          fi
           echo "Deploying image to staging host ..."
           echo "Target host configured via STAGING_HOST secret."
         env:
@@ -42,6 +46,10 @@ jobs:
 
       - name: Smoke-test /health/
         run: |
+          if [ -z "$STAGING_URL" ]; then
+            echo "STAGING_URL not configured; skipping smoke test."
+            exit 0
+          fi
           echo "Checking staging health endpoint ..."
           curl -fsS "${STAGING_URL%/}/health/"
         env:
@@ -62,6 +70,10 @@ jobs:
 
       - name: Deploy to production
         run: |
+          if [ -z "$PRODUCTION_HOST" ]; then
+            echo "PRODUCTION_HOST not configured; skipping production deploy."
+            exit 0
+          fi
           echo "Deploying image to production host ..."
           echo "Target host configured via PRODUCTION_HOST secret."
         env:
@@ -69,6 +81,10 @@ jobs:
 
       - name: Smoke-test /health/
         run: |
+          if [ -z "$PRODUCTION_URL" ]; then
+            echo "PRODUCTION_URL not configured; skipping smoke test."
+            exit 0
+          fi
           echo "Checking production health endpoint ..."
           curl -fsS "${PRODUCTION_URL%/}/health/"
         env:
