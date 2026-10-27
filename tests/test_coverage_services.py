@@ -9,7 +9,10 @@ from __future__ import annotations
 
 import pytest
 from django.contrib.auth.mixins import AccessMixin
+from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
+from django.test import RequestFactory
 
 from apps.accounts.serializers import RegistrationSerializer, UserSerializer
 from apps.cafes.forms import CafeForm, ZoneForm
@@ -26,7 +29,7 @@ from apps.core.mixins import (
     CustomerRequiredMixin,
     ManagerRequiredMixin,
 )
-from apps.reservations.models import Reservation, ReservationStatus
+from apps.reservations.models import ReservationStatus
 from apps.reviews.forms import ReviewForm
 from apps.reviews.models import Review
 from apps.reviews.services import create_review
@@ -73,8 +76,9 @@ def test_registration_serializer_creates_customer():
 class _MixinView:
     """Minimal CBV stand-in exposing the parts the mixin dispatch touches."""
 
-    def __init__(self, user, method="GET"):
-        self.request = type("R", (), {"user": user, "method": method})()
+    def __init__(self, user):
+        self.request = RequestFactory().get("/")
+        self.request.user = user
 
     def dispatch(self, request, *args, **kwargs):  # noqa: ANN001, ANN002, ANN003
         return HttpResponse("ok")
@@ -100,16 +104,19 @@ def test_role_mixin_allows_superuser(admin_user):
 
 def test_role_mixin_denies_wrong_role(customer_user):
     view = _build(AdminRequiredMixin, customer_user)
-    response = view.dispatch(view.request)
-    # AccessMixin redirects to login for an authenticated-but-forbidden user.
-    assert response.status_code in (302, 403)
+    # AccessMixin.handle_no_permission raises PermissionDenied when the user is
+    # authenticated (the default raise_exception stays False), so a forbidden
+    # role triggers the exception rather than a redirect.
+    with pytest.raises(PermissionDenied):
+        view.dispatch(view.request)
 
 
 def test_role_mixin_denies_anonymous():
-    anon = type("Anon", (), {"is_authenticated": False, "is_superuser": False, "role": None})()
-    view = _build(CustomerRequiredMixin, anon)
+    view = _build(CustomerRequiredMixin, AnonymousUser())
+    # Anonymous users are not authenticated and raise_exception is False, so the
+    # mixin redirects (302) to the login page via redirect_to_login.
     response = view.dispatch(view.request)
-    assert response.status_code in (302, 403)
+    assert response.status_code == 302
     assert isinstance(view, AccessMixin)
 
 
