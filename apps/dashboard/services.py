@@ -53,6 +53,5 @@ def busiest_tables(date_from: date, date_to: date, limit: int = 5) -> list[dict[
         .order_by("-count")[:limit]
     )
     return [
-        {"table_id": r["table_id"], "number": r["table__number"], "count": r["count"]}
-        for r in rows
+        {"table_id": r["table_id"], "number": r["table__number"], "count": r["count"]} for r in rows
     ]
