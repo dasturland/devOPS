@@ -27,9 +27,7 @@ class RoleRequiredMixin(AccessMixin):
 
     allowed_roles: tuple[str, ...] = ()
 
-    def dispatch(
-        self, request: HttpRequest, *args: object, **kwargs: object
-    ) -> HttpResponse:
+    def dispatch(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
         user = request.user
         if not user.is_authenticated:
             return self.handle_no_permission()

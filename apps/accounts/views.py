@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
@@ -29,6 +29,8 @@ from apps.core.exceptions import ValidationError
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
 
+    from apps.accounts.models import User
+
 
 @require_http_methods(["GET", "POST"])
 def register_view(request: HttpRequest) -> HttpResponse:
@@ -51,7 +53,7 @@ def login_view(request: HttpRequest) -> HttpResponse:
         return redirect("dashboard:home")
     form = LoginForm(request.POST or None, request=request)
     if request.method == "POST" and form.is_valid():
-        login(request, form.user)
+        login(request, cast("User", form.user))
         messages.success(request, "Tizimga muvaffaqiyatli kirdingiz.")
         return redirect("dashboard:home")
     return render(request, "accounts/login.html", {"form": form})
@@ -85,7 +87,7 @@ def change_password_view(request: HttpRequest) -> HttpResponse:
     if request.method == "POST" and form.is_valid():
         try:
             change_password(
-                request.user,
+                cast("User", request.user),
                 form.cleaned_data["old_password"],
                 form.cleaned_data["new_password"],
             )
@@ -113,9 +115,7 @@ def password_reset_request_view(request: HttpRequest) -> HttpResponse:
 
 
 @require_http_methods(["GET", "POST"])
-def password_reset_confirm_view(
-    request: HttpRequest, uidb64: str, token: str
-) -> HttpResponse:
+def password_reset_confirm_view(request: HttpRequest, uidb64: str, token: str) -> HttpResponse:
     """Set a new password via the reset link (FR-05)."""
     form = SetNewPasswordForm(request.POST or None)
     if request.method == "POST" and form.is_valid():

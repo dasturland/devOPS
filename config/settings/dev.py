@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
-from .base import BASE_DIR, env, env_bool
 from .base import *  # noqa: F401,F403
+from .base import BASE_DIR, env, env_bool, env_list
 
 DEBUG = env_bool("DEBUG", True)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]  # noqa: S104 - dev only
+# "localhost" / "127.0.0.1" cover local work; extra hosts (e.g. a container
+# bind address) can be added via the ALLOWED_HOSTS env var without binding to
+# every interface in source (avoids Bandit B104).
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", *env_list("ALLOWED_HOSTS")]
 
 DATABASES = {
     "default": {

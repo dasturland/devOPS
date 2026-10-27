@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,8 @@ from apps.tables.services import create_table
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
+
+    from apps.accounts.models import User
 
 
 def _can_manage(user, zone: Zone) -> bool:
@@ -46,7 +48,7 @@ def table_create(request: HttpRequest, zone_id: int) -> HttpResponse:
         raise PermissionDenied
     form = TableForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        create_table(request.user, zone, form.cleaned_data)
+        create_table(cast("User", request.user), zone, form.cleaned_data)
         messages.success(request, "Stol qo'shildi.")
         return redirect("tables:list", zone_id=zone.pk)
     return render(request, "tables/form.html", {"form": form, "zone": zone})

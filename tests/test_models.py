@@ -67,7 +67,5 @@ def test_review_rating_constraint(reservation):
 
 
 def test_audit_log_str():
-    entry = AuditLog.objects.create(
-        action=AuditAction.CREATE, object_type="Cafe", object_id="1"
-    )
+    entry = AuditLog.objects.create(action=AuditAction.CREATE, object_type="Cafe", object_id="1")
     assert "CREATE" in str(entry)

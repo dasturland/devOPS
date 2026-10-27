@@ -17,9 +17,7 @@ pytestmark = pytest.mark.django_db
 
 
 def _completed(table, customer, start):
-    return ReservationFactory(
-        table=table, customer=customer, start_time=start, status="COMPLETED"
-    )
+    return ReservationFactory(table=table, customer=customer, start_time=start, status="COMPLETED")
 
 
 def test_create_review_requires_completed(reservation, customer_user):
@@ -55,9 +53,17 @@ def test_admin_stats_aggregates(reservation):
 
 
 def test_cancellation_rate(table, customer_user, future_start):
-    ReservationFactory(table=table, customer=customer_user, start_time=future_start, status="CANCELLED")
+    ReservationFactory(
+        table=table,
+        customer=customer_user,
+        start_time=future_start,
+        status="CANCELLED",
+    )
     today = timezone.localdate()
-    rate = dashboard_services.cancellation_rate(today - timedelta(days=2), today + timedelta(days=2))
+    rate = dashboard_services.cancellation_rate(
+        today - timedelta(days=2),
+        today + timedelta(days=2),
+    )
     assert rate == 100.0
 
 

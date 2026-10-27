@@ -60,7 +60,10 @@ class Zone(TimeStampedModel):
     )
     name = models.CharField("nom", max_length=80)
     zone_type = models.CharField(
-        "zona turi", max_length=12, choices=ZoneType.choices, default=ZoneType.HALL
+        "zona turi",
+        max_length=12,
+        choices=ZoneType.choices,
+        default=ZoneType.HALL,
     )
 
     class Meta:
@@ -68,9 +71,7 @@ class Zone(TimeStampedModel):
         verbose_name_plural = "Zonalar"
         ordering = ["cafe", "name"]
         constraints = [
-            models.UniqueConstraint(
-                fields=["cafe", "name"], name="uniq_zone_name_per_cafe"
-            )
+            models.UniqueConstraint(fields=["cafe", "name"], name="uniq_zone_name_per_cafe")
         ]
 
     def __str__(self) -> str:

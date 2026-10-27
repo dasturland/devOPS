@@ -1,0 +1,40 @@
+# Mark and close inactive issues and pull requests (NFR-07).
+name: Stale
+
+on:
+  schedule:
+    # Daily at 01:30 UTC.
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: stale
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  stale:
+    name: Flag stale items
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Mark stale
+        uses: actions/stale@v9
+        with:
+          days-before-stale: 30
+          days-before-close: 7
+          stale-issue-label: stale
+          stale-pr-label: stale
+          stale-issue-message: >-
+            Ushbu issue 30 kun davomida faolsiz qoldi va "stale" deb belgilandi.
+            7 kun ichida faollik bo'lmasa, u yopiladi.
+          stale-pr-message: >-
+            Ushbu PR 30 kun davomida faolsiz qoldi va "stale" deb belgilandi.
+            7 kun ichida faollik bo'lmasa, u yopiladi.
+          exempt-issue-labels: pinned,security
+          exempt-pr-labels: pinned,security

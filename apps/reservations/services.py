@@ -75,9 +75,8 @@ def search_available_tables(criteria: dict[str, Any]) -> list[Table]:
     window_start = timezone.make_aware(datetime.combine(day, start_time))
     window_end = window_start + timedelta(minutes=duration)
 
-    tables = (
-        Table.objects.select_related("zone", "zone__cafe")
-        .filter(status="AVAILABLE", capacity__gte=guests)
+    tables = Table.objects.select_related("zone", "zone__cafe").filter(
+        status="AVAILABLE", capacity__gte=guests
     )
     if criteria.get("zone"):
         tables = tables.filter(zone_id=criteria["zone"])
@@ -85,14 +84,11 @@ def search_available_tables(criteria: dict[str, Any]) -> list[Table]:
         tables = tables.filter(zone__cafe_id=criteria["cafe"])
 
     # Prefetch the active reservations that could possibly overlap the day.
-    busy = (
-        Reservation.objects.filter(
-            table__in=tables,
-            status__in=ACTIVE_STATUSES,
-            start_time__date__in=[day, day - timedelta(days=1), day + timedelta(days=1)],
-        )
-        .only("table_id", "start_time", "duration_minutes")
-    )
+    busy = Reservation.objects.filter(
+        table__in=tables,
+        status__in=ACTIVE_STATUSES,
+        start_time__date__in=[day, day - timedelta(days=1), day + timedelta(days=1)],
+    ).only("table_id", "start_time", "duration_minutes")
     busy_by_table: dict[int, list[Reservation]] = {}
     for reservation in busy:
         busy_by_table.setdefault(reservation.table_id, []).append(reservation)
@@ -119,8 +115,7 @@ def _validate_window(table: Table, start_time: datetime, duration: int, guests: 
 
     if guests > table.capacity:
         raise ValidationError(
-            "Odam soni stol sig'imidan oshib ketdi "
-            f"(sig'im: {table.capacity})."
+            "Odam soni stol sig'imidan oshib ketdi " f"(sig'im: {table.capacity})."
         )
 
     cafe = table.zone.cafe
@@ -158,15 +153,12 @@ def create_reservation(customer: User, data: dict[str, Any]) -> Reservation:
 
     with transaction.atomic():
         table = (
-            Table.objects.select_related("zone", "zone__cafe")
-            .select_for_update()
-            .get(pk=table_id)
+            Table.objects.select_related("zone", "zone__cafe").select_for_update().get(pk=table_id)
         )
         _validate_window(table, start_time, duration, guests)
 
-        overlapping = (
-            Reservation.objects.select_for_update()
-            .filter(table=table, status__in=ACTIVE_STATUSES)
+        overlapping = Reservation.objects.select_for_update().filter(
+            table=table, status__in=ACTIVE_STATUSES
         )
         for existing in overlapping:
             if _overlaps(start_time, end_time, existing.start_time, existing.end_time):
@@ -213,9 +205,7 @@ def transition(reservation: Reservation, target: str, actor: User) -> Reservatio
     """
     current = reservation.status
     if target not in ALLOWED_TRANSITIONS.get(current, set()):
-        raise InvalidTransitionError(
-            f"'{current}' holatidan '{target}' holatiga o'tib bo'lmaydi."
-        )
+        raise InvalidTransitionError(f"'{current}' holatidan '{target}' holatiga o'tib bo'lmaydi.")
     reservation.status = target
     reservation.save(update_fields=["status", "updated_at"])
     record_audit(actor, AuditAction.UPDATE, reservation, {"status": [current, target]})
@@ -252,9 +242,7 @@ def cancel(reservation: Reservation, actor: User) -> Reservation:
         raise PermissionError("Faqat bron egasi uni bekor qila oladi.")
     remaining = reservation.start_time - timezone.now()
     if remaining < timedelta(hours=CANCEL_MIN_HOURS):
-        raise ValidationError(
-            "Bronni boshlanishiga kamida 2 soat qolganda bekor qilish mumkin."
-        )
+        raise ValidationError("Bronni boshlanishiga kamida 2 soat qolganda bekor qilish mumkin.")
     return transition(reservation, ReservationStatus.CANCELLED, actor)
 
 

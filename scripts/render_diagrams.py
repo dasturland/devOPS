@@ -35,9 +35,7 @@ DEFAULT_FORMATS = ("svg", "png")
 TIMEOUT_SECONDS = 15
 
 
-def render_one(
-    source: Path, diagram_type: str, fmt: str, kroki_url: str
-) -> bool:
+def render_one(source: Path, diagram_type: str, fmt: str, kroki_url: str) -> bool:
     """Render a single source file to ``fmt``. Return ``True`` on success."""
     url = f"{kroki_url.rstrip('/')}/{diagram_type}/{fmt}"
     payload = source.read_text(encoding="utf-8").encode("utf-8")
@@ -74,9 +72,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"warning: diagrams directory not found: {DIAGRAMS_DIR}")
         return 0
 
-    sources = sorted(
-        p for p in DIAGRAMS_DIR.iterdir() if p.suffix.lower() in DIAGRAM_TYPES
-    )
+    sources = sorted(p for p in DIAGRAMS_DIR.iterdir() if p.suffix.lower() in DIAGRAM_TYPES)
     if not sources:
         print("warning: no diagram sources found; nothing to render.")
         return 0

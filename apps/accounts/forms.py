@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
+
+if TYPE_CHECKING:
+    from django.contrib.auth.base_user import AbstractBaseUser
+    from django.http import HttpRequest
 
 User = get_user_model()
 
@@ -17,9 +23,7 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(label="Email")
     phone = forms.CharField(label="Telefon", max_length=32, required=False)
     password = forms.CharField(label="Parol", widget=forms.PasswordInput)
-    password_confirm = forms.CharField(
-        label="Parolni tasdiqlang", widget=forms.PasswordInput
-    )
+    password_confirm = forms.CharField(label="Parolni tasdiqlang", widget=forms.PasswordInput)
 
     def clean_email(self) -> str:
         email = self.cleaned_data["email"].strip().lower()
@@ -28,7 +32,7 @@ class RegisterForm(forms.Form):
         return email
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         password = cleaned.get("password")
         confirm = cleaned.get("password_confirm")
         if password and confirm and password != confirm:
@@ -45,18 +49,16 @@ class LoginForm(forms.Form):
     password = forms.CharField(label="Parol", widget=forms.PasswordInput)
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        self.request = kwargs.pop("request", None)
-        self.user = None
+        self.request: HttpRequest | None = kwargs.pop("request", None)  # type: ignore[assignment]
+        self.user: AbstractBaseUser | None = None
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         email = cleaned.get("email")
         password = cleaned.get("password")
         if email and password:
-            user = authenticate(
-                self.request, username=email.strip().lower(), password=password
-            )
+            user = authenticate(self.request, username=email.strip().lower(), password=password)
             if user is None:
                 raise forms.ValidationError("Email yoki parol noto'g'ri.")
             self.user = user
@@ -69,11 +71,12 @@ class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(label="Joriy parol", widget=forms.PasswordInput)
     new_password = forms.CharField(label="Yangi parol", widget=forms.PasswordInput)
     new_password_confirm = forms.CharField(
-        label="Yangi parolni tasdiqlang", widget=forms.PasswordInput
+        label="Yangi parolni tasdiqlang",
+        widget=forms.PasswordInput,
     )
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         new = cleaned.get("new_password")
         confirm = cleaned.get("new_password_confirm")
         if new and confirm and new != confirm:
@@ -94,11 +97,12 @@ class SetNewPasswordForm(forms.Form):
 
     new_password = forms.CharField(label="Yangi parol", widget=forms.PasswordInput)
     new_password_confirm = forms.CharField(
-        label="Yangi parolni tasdiqlang", widget=forms.PasswordInput
+        label="Yangi parolni tasdiqlang",
+        widget=forms.PasswordInput,
     )
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         new = cleaned.get("new_password")
         confirm = cleaned.get("new_password_confirm")
         if new and confirm and new != confirm:

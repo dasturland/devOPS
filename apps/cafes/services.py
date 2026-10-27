@@ -59,9 +59,7 @@ def manage_zone(actor: User, cafe: Cafe, data: dict[str, Any]) -> Zone:
     name = data.get("name", "").strip()
     if Zone.objects.filter(cafe=cafe, name__iexact=name).exists():
         raise ValidationError("Ushbu kafeda bunday nomli zona allaqachon mavjud.")
-    zone = Zone.objects.create(
-        cafe=cafe, name=name, zone_type=data.get("zone_type", "HALL")
-    )
+    zone = Zone.objects.create(cafe=cafe, name=name, zone_type=data.get("zone_type", "HALL"))
     record_audit(actor, AuditAction.CREATE, zone)
     return zone
 

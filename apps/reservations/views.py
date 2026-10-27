@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import datetime
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING, cast
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -20,6 +21,8 @@ from apps.reservations.models import Reservation
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
+
+    from apps.accounts.models import User
 
 
 @require_http_methods(["GET", "POST"])
@@ -54,12 +57,10 @@ def book_view(request: HttpRequest) -> HttpResponse:
     form = ReservationConfirmForm(source or None)
     if request.method == "POST" and form.is_valid():
         data = form.cleaned_data
-        start_time = timezone.make_aware(
-            datetime.combine(data["date"], data["start_time"])
-        )
+        start_time = timezone.make_aware(datetime.combine(data["date"], data["start_time"]))
         try:
-            reservation = services.create_reservation(
-                request.user,
+            services.create_reservation(
+                cast("User", request.user),
                 {
                     "table": data["table"],
                     "start_time": start_time,
@@ -79,7 +80,7 @@ def book_view(request: HttpRequest) -> HttpResponse:
 @login_required
 def my_reservations_view(request: HttpRequest) -> HttpResponse:
     """Paginated, filterable list of the customer's reservations (FR-19)."""
-    qs = services.reservations_for_customer(request.user)
+    qs = services.reservations_for_customer(cast("User", request.user))
     status = request.GET.get("status")
     if status:
         qs = qs.filter(status=status)
@@ -95,16 +96,12 @@ def my_reservations_view(request: HttpRequest) -> HttpResponse:
 @login_required
 def manager_schedule_view(request: HttpRequest) -> HttpResponse:
     """Manager daily schedule for their cafe (FR-20)."""
-    user = request.user
+    user = cast("User", request.user)
     if getattr(user, "role", None) not in {"MANAGER", "WAITER", "ADMIN"} and not user.is_superuser:
         raise PermissionDenied
     cafe = user.managed_cafes.first()
     day_str = request.GET.get("date")
-    day = (
-        datetime.strptime(day_str, "%Y-%m-%d").date()
-        if day_str
-        else timezone.localdate()
-    )
+    day = datetime.strptime(day_str, "%Y-%m-%d").date() if day_str else timezone.localdate()
     reservations = services.daily_schedule(cafe, day) if cafe else []
     return render(
         request,
@@ -113,17 +110,15 @@ def manager_schedule_view(request: HttpRequest) -> HttpResponse:
     )
 
 
-def _action_view(action: Callable[[Reservation, object], Reservation], success: str):
+def _action_view(action: Callable[[Reservation, User], Reservation], success: str):
     """Build a POST-only view that applies a state-machine action."""
 
     @login_required
     @require_http_methods(["POST"])
     def view(request: HttpRequest, pk: int) -> HttpResponse:
-        reservation = get_object_or_404(
-            Reservation.objects.with_related(), pk=pk
-        )
+        reservation = get_object_or_404(Reservation.objects.with_related(), pk=pk)
         try:
-            action(reservation, request.user)
+            action(reservation, cast("User", request.user))
         except DomainError as exc:
             messages.error(request, exc.message)
         else:

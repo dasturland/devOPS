@@ -51,14 +51,9 @@ def table(db, zone):
 @pytest.fixture
 def future_start(db):
     """A timezone-aware start time tomorrow at noon."""
-    return (
-        timezone.now().replace(hour=12, minute=0, second=0, microsecond=0)
-        + timedelta(days=1)
-    )
+    return timezone.now().replace(hour=12, minute=0, second=0, microsecond=0) + timedelta(days=1)
 
 
 @pytest.fixture
 def reservation(db, table, customer_user, future_start):
-    return ReservationFactory(
-        table=table, customer=customer_user, start_time=future_start
-    )
+    return ReservationFactory(table=table, customer=customer_user, start_time=future_start)

@@ -29,13 +29,11 @@ class CafeForm(forms.ModelForm):
         }
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         opening = cleaned.get("opening_time")
         closing = cleaned.get("closing_time")
         if opening and closing and opening >= closing:
-            self.add_error(
-                "closing_time", "Yopilish vaqti ochilish vaqtidan keyin bo'lishi kerak."
-            )
+            self.add_error("closing_time", "Yopilish vaqti ochilish vaqtidan keyin bo'lishi kerak.")
         return cleaned
 
 

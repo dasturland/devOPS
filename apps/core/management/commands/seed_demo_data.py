@@ -62,8 +62,7 @@ class Command(BaseCommand):
             self._user("manager2@tablereserve.uz", "MANAGER", "Dilnoza"),
         ]
         customers = [
-            self._user(f"customer{i}@tablereserve.uz", "CUSTOMER", f"Mijoz{i}")
-            for i in range(1, 6)
+            self._user(f"customer{i}@tablereserve.uz", "CUSTOMER", f"Mijoz{i}") for i in range(1, 6)
         ]
 
         cafes = self._cafes(managers)
@@ -73,20 +72,17 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Demo ma'lumotlar tayyor."))
         self.stdout.write("")
-        self.stdout.write("Demo akkauntlar (parol: %s):" % DEMO_PASSWORD)
+        self.stdout.write(f"Demo akkauntlar (parol: {DEMO_PASSWORD}):")
         self.stdout.write("  Admin     : admin@tablereserve.uz")
         self.stdout.write("  Menejer 1 : manager1@tablereserve.uz")
         self.stdout.write("  Menejer 2 : manager2@tablereserve.uz")
         self.stdout.write("  Mijozlar  : customer1..5@tablereserve.uz")
         self.stdout.write("")
         self.stdout.write(
-            "Yaratilgan: %d kafe, %d stol, %d bron, %d sharh."
-            % (
-                Cafe.objects.count(),
-                Table.objects.count(),
-                Reservation.objects.count(),
-                Review.objects.count(),
-            )
+            f"Yaratilgan: {Cafe.objects.count()} kafe, "
+            f"{Table.objects.count()} stol, "
+            f"{Reservation.objects.count()} bron, "
+            f"{Review.objects.count()} sharh."
         )
         # Keep the admin reference silent-used so linters stay happy.
         assert admin.pk is not None
@@ -147,7 +143,9 @@ class Command(BaseCommand):
         for cafe in cafes:
             for zname, ztype in zone_specs:
                 zone, _ = Zone.objects.get_or_create(
-                    cafe=cafe, name=zname, defaults={"zone_type": ztype}
+                    cafe=cafe,
+                    name=zname,
+                    defaults={"zone_type": ztype},
                 )
                 # 4 tables per zone => 3 cafes * 3 zones * 4 = 36 tables (>= 30).
                 for n in range(1, 5):
@@ -160,12 +158,13 @@ class Command(BaseCommand):
                     tables.append(table)
         return tables
 
-    def _reservations(
-        self, customers: list, tables: list[Table], count: int
-    ) -> list[Reservation]:
+    def _reservations(self, customers: list, tables: list[Table], count: int) -> list[Reservation]:
         reservations: list[Reservation] = []
         base = timezone.localtime(timezone.now()).replace(
-            hour=12, minute=0, second=0, microsecond=0
+            hour=12,
+            minute=0,
+            second=0,
+            microsecond=0,
         )
         for i in range(count):
             table = tables[i % len(tables)]
@@ -174,7 +173,7 @@ class Command(BaseCommand):
             # Spread reservations across past and future days and times so the
             # dashboard and "my reservations" filters show realistic data.
             day_offset = (i % 20) - 10  # -10 .. +9 days
-            hour = 10 + (i % 10)        # within 09:00-23:00 working window
+            hour = 10 + (i % 10)  # within 09:00-23:00 working window
             start_naive = (base + timedelta(days=day_offset)).replace(hour=hour)
             start_time = self._aware(start_naive)
 

@@ -13,9 +13,7 @@ class TimeStampedModel(models.Model):
     by creation time (NFR-03).
     """
 
-    created_at = models.DateTimeField(
-        "yaratilgan vaqt", auto_now_add=True, db_index=True
-    )
+    created_at = models.DateTimeField("yaratilgan vaqt", auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField("yangilangan vaqt", auto_now=True)
 
     class Meta:
@@ -41,9 +39,7 @@ class AuditLog(models.Model):
         related_name="audit_entries",
         verbose_name="bajaruvchi",
     )
-    action = models.CharField(
-        "amal", max_length=10, choices=AuditAction.choices
-    )
+    action = models.CharField("amal", max_length=10, choices=AuditAction.choices)
     object_type = models.CharField("obyekt turi", max_length=64)
     object_id = models.CharField("obyekt ID", max_length=64)
     changes = models.JSONField("o'zgarishlar", default=dict, blank=True)

@@ -19,9 +19,7 @@ class ReservationQuerySet(models.QuerySet):
     """Chainable queries with N+1-safe ``select_related`` (NFR-03)."""
 
     def with_related(self) -> ReservationQuerySet:
-        return self.select_related(
-            "customer", "table", "table__zone", "table__zone__cafe"
-        )
+        return self.select_related("customer", "table", "table__zone", "table__zone__cafe")
 
     def active(self) -> ReservationQuerySet:
         return self.filter(status__in=ACTIVE_STATUSES)

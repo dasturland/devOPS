@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,8 @@ from apps.cafes.services import cafe_average_rating, create_cafe, manage_zone
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
+
+    from apps.accounts.models import User
 
 
 def _can_manage(user, cafe: Cafe | None = None) -> bool:
@@ -40,7 +42,8 @@ def cafe_list(request: HttpRequest) -> HttpResponse:
 def cafe_detail(request: HttpRequest, slug: str) -> HttpResponse:
     """Cafe detail page with average rating and zones."""
     cafe = get_object_or_404(
-        Cafe.objects.select_related("manager").prefetch_related("zones"), slug=slug
+        Cafe.objects.select_related("manager").prefetch_related("zones"),
+        slug=slug,
     )
     context = {
         "cafe": cafe,
@@ -58,7 +61,7 @@ def cafe_create(request: HttpRequest) -> HttpResponse:
         raise PermissionDenied
     form = CafeForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
-        cafe = create_cafe(request.user, form.cleaned_data)
+        cafe = create_cafe(cast("User", request.user), form.cleaned_data)
         messages.success(request, "Kafe yaratildi.")
         return redirect("cafes:detail", slug=cafe.slug)
     return render(request, "cafes/form.html", {"form": form, "title": "Yangi kafe"})
@@ -73,9 +76,7 @@ def zone_create(request: HttpRequest, slug: str) -> HttpResponse:
         raise PermissionDenied
     form = ZoneForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        manage_zone(request.user, cafe, form.cleaned_data)
+        manage_zone(cast("User", request.user), cafe, form.cleaned_data)
         messages.success(request, "Zona qo'shildi.")
         return redirect("cafes:detail", slug=cafe.slug)
-    return render(
-        request, "cafes/form.html", {"form": form, "title": "Yangi zona"}
-    )
+    return render(request, "cafes/form.html", {"form": form, "title": "Yangi zona"})

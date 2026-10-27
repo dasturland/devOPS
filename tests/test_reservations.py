@@ -14,7 +14,7 @@ from apps.core.exceptions import (
     ValidationError,
 )
 from apps.reservations import services
-from apps.reservations.models import Reservation, ReservationStatus
+from apps.reservations.models import ReservationStatus
 from tests.factories import CustomerFactory, ReservationFactory, TableFactory
 
 pytestmark = pytest.mark.django_db
@@ -32,9 +32,7 @@ def _data(table, start, **kwargs):
 
 
 def test_create_reservation_success(table, customer_user, future_start):
-    reservation = services.create_reservation(
-        customer_user, _data(table, future_start)
-    )
+    reservation = services.create_reservation(customer_user, _data(table, future_start))
     assert reservation.status == ReservationStatus.PENDING
     assert reservation.customer == customer_user
 
@@ -129,9 +127,7 @@ def test_invalid_transition_rejected(reservation, manager_user):
 def test_cancel_within_two_hours_rejected(table, customer_user):
     soon = timezone.now() + timedelta(hours=1)
     # Create directly to bypass creation validation for the 2h rule test.
-    reservation = ReservationFactory(
-        table=table, customer=customer_user, start_time=soon
-    )
+    reservation = ReservationFactory(table=table, customer=customer_user, start_time=soon)
     with pytest.raises(ValidationError):
         services.cancel(reservation, customer_user)
 
