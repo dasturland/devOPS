@@ -385,34 +385,34 @@ fazaga tayanadi.
 
 ## Faza 16. GitHub Actions workflow'lari (sakkiztasi)
 
-- [ ] **16.1. `.github/workflows/ci.yml`.** Lint (`ruff check` + `ruff format
+- [x] **16.1. `.github/workflows/ci.yml`.** Lint (`ruff check` + `ruff format
   --check`) + `mypy`; test matritsasi (3.11, 3.12) `pytest --cov` qamrov darvozasi
   bilan; `python manage.py check` va `makemigrations --check --dry-run`;
   `concurrency`, `permissions`, `timeout-minutes`.
   *Tekshirish:* workflow YAML `yamllint`/`actionlint` toza; mantiq lint+test+check
   bosqichlarini qamraydi. (`NFR-05`, `NFR-07`, `NFR-09`, `NFR-10`)
-- [ ] **16.2. `.github/workflows/security.yml`.** Dependency/kod xavfsizlik skani
+- [x] **16.2. `.github/workflows/security.yml`.** Dependency/kod xavfsizlik skani
   (masalan pip-audit/bandit/CodeQL); `concurrency`, `permissions`, `timeout-minutes`.
   *Tekshirish:* YAML toza; skan ishga tushadi. (`NFR-07`, `NFR-02`)
-- [ ] **16.3. `.github/workflows/docker.yml`.** Image build va GHCR'ga push;
+- [x] **16.3. `.github/workflows/docker.yml`.** Image build va GHCR'ga push;
   `concurrency`, `permissions` (`packages: write`), `timeout-minutes`.
   *Tekshirish:* YAML toza; build/push bosqichlari to'g'ri. (`NFR-06`, `NFR-07`)
-- [ ] **16.4. `.github/workflows/cd.yml`.** Deploy va `/health/` smoke-test;
+- [x] **16.4. `.github/workflows/cd.yml`.** Deploy va `/health/` smoke-test;
   `concurrency`, `permissions`, `timeout-minutes`.
   *Tekshirish:* YAML toza; deploy + health smoke bosqichlari mavjud. (`FR-25`,
   `NFR-07`)
-- [ ] **16.5. `.github/workflows/release.yml`.** `v1.0.0` tag/release yaratish
+- [x] **16.5. `.github/workflows/release.yml`.** `v1.0.0` tag/release yaratish
   (changelog ilova qilish); `concurrency`, `permissions` (`contents: write`),
   `timeout-minutes`.
   *Tekshirish:* YAML toza; release bosqichi to'g'ri. (`NFR-07`)
-- [ ] **16.6. `.github/workflows/docs.yml`.** Hujjat/diagramma build (va kerak bo'lsa
+- [x] **16.6. `.github/workflows/docs.yml`.** Hujjat/diagramma build (va kerak bo'lsa
   publish); `concurrency`, `permissions`, `timeout-minutes`.
   *Tekshirish:* YAML toza; docs/diagrams build bosqichi mavjud. (`NFR-12`, `NFR-07`)
-- [ ] **16.7. `.github/workflows/stale.yml`.** Eski issue/PR'larni belgilash;
+- [x] **16.7. `.github/workflows/stale.yml`.** Eski issue/PR'larni belgilash;
   `concurrency`, `permissions` (`issues: write`, `pull-requests: write`),
   `timeout-minutes`.
   *Tekshirish:* YAML toza. (`NFR-07`)
-- [ ] **16.8. `.github/workflows/labeler.yml`.** O'zgargan yo'llar bo'yicha PR
+- [x] **16.8. `.github/workflows/labeler.yml`.** O'zgargan yo'llar bo'yicha PR
   avtomatik yorliqlash; `concurrency`, `permissions`, `timeout-minutes`.
   *Tekshirish:* YAML toza; `.github/labeler.yml` config bilan bog'langan. (`NFR-07`)
 - [ ] **16.9. README status badge'lari.** README'ga workflow holat (status) badge'larini
