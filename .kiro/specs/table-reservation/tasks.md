@@ -415,7 +415,7 @@ fazaga tayanadi.
 - [x] **16.8. `.github/workflows/labeler.yml`.** O'zgargan yo'llar bo'yicha PR
   avtomatik yorliqlash; `concurrency`, `permissions`, `timeout-minutes`.
   *Tekshirish:* YAML toza; `.github/labeler.yml` config bilan bog'langan. (`NFR-07`)
-- [ ] **16.9. README status badge'lari.** README'ga workflow holat (status) badge'larini
+- [x] **16.9. README status badge'lari.** README'ga workflow holat (status) badge'larini
   qo'shish.
   *Tekshirish:* README'da badge markdownlari mavjud. (`NFR-07`, `NFR-12`)
 
@@ -454,17 +454,17 @@ fazaga tayanadi.
 
 ## Faza 20. Hujjatlar (o'zbek, lotin)
 
-- [ ] **20.1. `README.md`.** Loyiha tavsifi, ishga tushirish (lokal + Docker),
+- [x] **20.1. `README.md`.** Loyiha tavsifi, ishga tushirish (lokal + Docker),
   texnologiyalar, status badge'lar (Faza 16.9), API/health havolalari.
   *Tekshirish:* README to'liq va badge'lar bilan. (`NFR-12`, `NFR-06`, `NFR-07`)
-- [ ] **20.2. `docs/architecture.md` va `docs/requirements.md`.** Arxitektura
+- [x] **20.2. `docs/architecture.md` va `docs/requirements.md`.** Arxitektura
   (qatlamlar, modullar, diagramma havolalari) va talablar xulosasi.
   *Tekshirish:* fayllar `design.md`/`requirements.md` bilan mos. (`NFR-12`)
-- [ ] **20.3. `docs/cicd.md` va `docs/deployment.md`.** CI/CD quvuri (8 workflow)
+- [x] **20.3. `docs/cicd.md` va `docs/deployment.md`.** CI/CD quvuri (8 workflow)
   va deploy (Docker/compose, `/health/` smoke) tavsifi.
   *Tekshirish:* fayllar workflow'lar va Docker bilan mos. (`NFR-07`, `NFR-06`,
   `NFR-12`)
-- [ ] **20.4. `docs/HIMOYA.md`, `docs/HISOBOT.md`, `CHANGELOG.md`,
+- [x] **20.4. `docs/HIMOYA.md`, `docs/HISOBOT.md`, `CHANGELOG.md`,
   `docs/screenshots/`.** Himoya (xavfsizlik) hujjati, yakuniy hisobot, o'zgarishlar
   jurnali va skrinshotlar papkasi.
   *Tekshirish:* fayllar/papka mavjud; `CHANGELOG.md` `v1.0.0` ni qamraydi. (`NFR-12`,
