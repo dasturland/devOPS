@@ -40,7 +40,7 @@ jobs:
         run: ruff check .
 
       - name: Ruff format check
-        run: ruff format --check .
+        run: ruff format --check --diff .
 
       - name: mypy (django-stubs)
         run: mypy apps config
