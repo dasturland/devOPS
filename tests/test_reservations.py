@@ -14,7 +14,7 @@ from apps.core.exceptions import (
     ValidationError,
 )
 from apps.reservations import services
-from apps.reservations.models import Reservation, ReservationStatus
+from apps.reservations.models import ReservationStatus
 from tests.factories import CustomerFactory, ReservationFactory, TableFactory
 
 pytestmark = pytest.mark.django_db
