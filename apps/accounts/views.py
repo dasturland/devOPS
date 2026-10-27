@@ -53,7 +53,7 @@ def login_view(request: HttpRequest) -> HttpResponse:
         return redirect("dashboard:home")
     form = LoginForm(request.POST or None, request=request)
     if request.method == "POST" and form.is_valid():
-        login(request, form.user)
+        login(request, cast("User", form.user))
         messages.success(request, "Tizimga muvaffaqiyatli kirdingiz.")
         return redirect("dashboard:home")
     return render(request, "accounts/login.html", {"form": form})

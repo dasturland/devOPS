@@ -33,7 +33,7 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    objects = UserManager()  # type: ignore[assignment]
+    objects = UserManager()  # type: ignore[assignment, misc]
 
     class Meta:
         verbose_name = "Foydalanuvchi"
