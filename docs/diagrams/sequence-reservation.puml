@@ -1,0 +1,29 @@
+@startuml sequence-reservation
+' Sequence: reservation creation View -> service -> ORM -> DB (design §5).
+actor "Mijoz" as Customer
+participant "book_view" as View
+participant "services.create_reservation" as Service
+database "PostgreSQL" as DB
+
+Customer -> View : POST /reservations/book/
+activate View
+View -> Service : create_reservation(customer, data)
+activate Service
+Service -> DB : BEGIN (transaction.atomic)
+Service -> DB : SELECT ... FOR UPDATE (table)
+Service -> Service : _validate_window() (past/hours/capacity)
+Service -> DB : SELECT active reservations FOR UPDATE
+alt overlap topildi
+  Service -> DB : ROLLBACK
+  Service --> View : ConflictError
+  View --> Customer : xato xabari
+else bo'sh
+  Service -> DB : INSERT Reservation (PENDING)
+  Service -> DB : INSERT AuditLog
+  Service -> DB : COMMIT
+  Service --> View : Reservation
+  deactivate Service
+  View --> Customer : 302 -> Mening bronlarim
+end
+deactivate View
+@enduml

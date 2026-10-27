@@ -1,0 +1,20 @@
+@startuml activity-approval
+' Activity: manager approval / rejection flow (FR-17).
+start
+:Menejer kunlik jadvalni ochadi;
+:PENDING bronni tanlaydi;
+if (Menejer shu kafega egami?) then (yo'q)
+  :PermissionError (403);
+  stop
+else (ha)
+  if (Qaror?) then (Tasdiqlash)
+    :transition(PENDING -> CONFIRMED);
+    :Mijozga tasdiq xabari;
+  else (Rad etish)
+    :transition(PENDING -> REJECTED);
+    :Mijozga rad etish xabari;
+  endif
+  :Audit yoziladi;
+  stop
+endif
+@enduml

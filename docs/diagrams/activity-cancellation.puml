@@ -1,0 +1,19 @@
+@startuml activity-cancellation
+' Activity: customer cancellation and the 2-hour rule (FR-18).
+start
+:Mijoz "Bekor qilish" ni bosadi;
+if (Foydalanuvchi bron egasimi?) then (yo'q)
+  :PermissionError;
+  stop
+else (ha)
+  if (Boshlanishiga >= 2 soat qoldimi?) then (yo'q)
+    :ValidationError "kamida 2 soat qolishi kerak";
+    stop
+  else (ha)
+    :transition(-> CANCELLED);
+    :Audit yoziladi + xabar;
+    :Stol vaqti qayta bo'sh bo'ladi;
+    stop
+  endif
+endif
+@enduml

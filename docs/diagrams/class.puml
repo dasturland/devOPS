@@ -1,0 +1,82 @@
+@startuml class
+' Class diagram — domain models and relationships (design §3).
+skinparam classAttributeIconSize 0
+
+abstract class TimeStampedModel {
+  +created_at: datetime
+  +updated_at: datetime
+}
+
+class User {
+  +email: str <<unique>>
+  +role: Role
+  +phone: str
+  +is_admin(): bool
+  +is_manager(): bool
+  +is_customer(): bool
+}
+
+enum Role { ADMIN \n MANAGER \n CUSTOMER \n WAITER }
+
+class Cafe {
+  +name: str
+  +slug: str <<unique>>
+  +address: str
+  +opening_time: time
+  +closing_time: time
+  +is_active: bool
+}
+
+class Zone {
+  +name: str
+  +zone_type: ZoneType
+}
+enum ZoneType { HALL \n TERRACE \n VIP }
+
+class Table {
+  +number: str
+  +capacity: int
+  +status: TableStatus
+}
+enum TableStatus { AVAILABLE \n INACTIVE }
+
+class Reservation {
+  +start_time: datetime
+  +duration_minutes: int
+  +guests_count: int
+  +status: ReservationStatus
+  +end_time(): datetime
+}
+enum ReservationStatus {
+  PENDING \n CONFIRMED \n COMPLETED \n CANCELLED \n REJECTED \n NO_SHOW
+}
+
+class Review {
+  +rating: int
+  +comment: str
+}
+
+class AuditLog {
+  +action: AuditAction
+  +object_type: str
+  +object_id: str
+  +changes: json
+}
+
+TimeStampedModel <|-- Cafe
+TimeStampedModel <|-- Zone
+TimeStampedModel <|-- Table
+TimeStampedModel <|-- Reservation
+TimeStampedModel <|-- Review
+TimeStampedModel <|-- AuditLog
+
+User "1" --> "0..*" Cafe : manager
+Cafe "1" *-- "0..*" Zone
+Zone "1" *-- "0..*" Table
+User "1" --> "0..*" Reservation : customer
+Table "1" --> "0..*" Reservation
+Reservation "1" --> "0..1" Review
+Cafe "1" --> "0..*" Review
+User "1" --> "0..*" Review : author
+User "1" --> "0..*" AuditLog : actor
+@enduml

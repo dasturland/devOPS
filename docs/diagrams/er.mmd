@@ -1,0 +1,63 @@
+erDiagram
+    USER ||--o{ CAFE : "menejer"
+    USER ||--o{ RESERVATION : "mijoz"
+    USER ||--o{ REVIEW : "muallif"
+    USER ||--o{ AUDITLOG : "actor"
+    CAFE ||--o{ ZONE : "ega"
+    ZONE ||--o{ TABLE : "ega"
+    TABLE ||--o{ RESERVATION : "band qilinadi"
+    RESERVATION ||--o| REVIEW : "sharh"
+    CAFE ||--o{ REVIEW : "sharhlanadi"
+
+    USER {
+        int id PK
+        string email UK
+        string role
+        string phone
+    }
+    CAFE {
+        int id PK
+        string name
+        string slug UK
+        time opening_time
+        time closing_time
+        bool is_active
+        int manager_id FK
+    }
+    ZONE {
+        int id PK
+        string name
+        string zone_type
+        int cafe_id FK
+    }
+    TABLE {
+        int id PK
+        string number
+        int capacity
+        string status
+        int zone_id FK
+    }
+    RESERVATION {
+        int id PK
+        datetime start_time
+        int duration_minutes
+        int guests_count
+        string status
+        int customer_id FK
+        int table_id FK
+    }
+    REVIEW {
+        int id PK
+        int rating
+        string comment
+        int reservation_id FK
+        int cafe_id FK
+        int author_id FK
+    }
+    AUDITLOG {
+        int id PK
+        string action
+        string object_type
+        string object_id
+        json changes
+    }

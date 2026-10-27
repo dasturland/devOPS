@@ -1,0 +1,41 @@
+@startuml component
+' Component diagram — layers and module dependencies (design §2, §7).
+skinparam componentStyle rectangle
+
+package "Prezentatsiya" {
+  [Web Views + Templates]
+  [DRF API (ViewSets/Serializers)]
+}
+
+package "Biznes-logika (services.py)" {
+  [accounts.services]
+  [cafes.services]
+  [tables.services]
+  [reservations.services]
+  [reviews.services]
+  [dashboard.services]
+}
+
+package "Core" {
+  [core.services (audit/notify/health)]
+  [core.exceptions]
+  [core.mixins]
+}
+
+package "Ma'lumotlar (Models/ORM)" {
+  [Django ORM Models]
+}
+
+database "PostgreSQL / SQLite" as DB
+
+[Web Views + Templates] --> [reservations.services]
+[Web Views + Templates] --> [cafes.services]
+[DRF API (ViewSets/Serializers)] --> [reservations.services]
+[DRF API (ViewSets/Serializers)] --> [reviews.services]
+[reservations.services] --> [core.services]
+[reviews.services] --> [core.services]
+[reservations.services] --> [Django ORM Models]
+[cafes.services] --> [Django ORM Models]
+[dashboard.services] --> [Django ORM Models]
+[Django ORM Models] --> DB
+@enduml

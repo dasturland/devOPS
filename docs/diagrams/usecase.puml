@@ -1,0 +1,40 @@
+@startuml usecase
+' Use case diagram — actors and system capabilities (V1-V9).
+left to right direction
+skinparam actorStyle awesome
+
+actor "Mehmon" as Guest
+actor "Mijoz" as Customer
+actor "Kafe menejeri" as Manager
+actor "Ofitsiant" as Waiter
+actor "Administrator" as Admin
+
+Customer --|> Guest
+Manager --|> Customer
+Admin --|> Manager
+
+rectangle "TableReserve" {
+  usecase "V1: Bo'sh stol qidirish" as UC1
+  usecase "V2: Ro'yxatdan o'tish / kirish" as UC2
+  usecase "V3: Stol bron qilish" as UC3
+  usecase "V4: Bronni bekor qilish" as UC4
+  usecase "V5: Bronni tasdiqlash/rad etish" as UC5
+  usecase "V6: Kunlik jadvalni ko'rish" as UC6
+  usecase "V7: Kafe/stol boshqaruvi" as UC7
+  usecase "V8: Sharh qoldirish" as UC8
+  usecase "V9: Statistika paneli" as UC9
+}
+
+Guest --> UC1
+Guest --> UC2
+Customer --> UC3
+Customer --> UC4
+Customer --> UC8
+Manager --> UC5
+Manager --> UC6
+Manager --> UC7
+Waiter --> UC5
+Waiter --> UC6
+Admin --> UC7
+Admin --> UC9
+@enduml

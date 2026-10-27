@@ -1,0 +1,24 @@
+@startuml deployment
+' Deployment diagram — containers, database, registry (NFR-06).
+skinparam componentStyle rectangle
+
+node "Developer / CI" {
+  artifact "GitHub Actions" as GHA
+}
+
+cloud "GitHub Container Registry (GHCR)" {
+  artifact "ghcr.io/dasturland/devops:latest" as Image
+}
+
+node "Production host (Docker)" {
+  node "nginx" as Nginx
+  node "web (gunicorn)" as Web
+  database "PostgreSQL" as PG
+}
+
+GHA --> Image : docker build + push
+Image --> Web : docker compose pull
+Nginx --> Web : reverse proxy (HTTP)
+Web --> PG : psycopg (5432)
+Web ..> Web : HEALTHCHECK /health/
+@enduml

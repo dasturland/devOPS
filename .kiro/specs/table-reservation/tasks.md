@@ -354,19 +354,19 @@ fazaga tayanadi.
 
 ## Faza 14. UML diagrammalar va render skripti
 
-- [ ] **14.1. Diagramma manba fayllari (`docs/diagrams/`).** `design.md` §11 dagi
+- [x] **14.1. Diagramma manba fayllari (`docs/diagrams/`).** `design.md` §11 dagi
   o'nta diagrammaning manbalari: `usecase.puml`, `activity-reservation.puml`,
   `activity-approval.puml`, `activity-cancellation.puml`, `class.puml`,
   `sequence-reservation.puml`, `er.mmd`, `deployment.puml`, `component.puml`,
   `cicd-pipeline.puml`.
   *Tekshirish:* o'nta manba fayl mavjud va sintaktik to'g'ri. (`NFR-12`,
   `design.md` §11)
-- [ ] **14.2. `scripts/render_diagrams.py`.** Kroki API orqali `.puml`/`.mmd`
+- [x] **14.2. `scripts/render_diagrams.py`.** Kroki API orqali `.puml`/`.mmd`
   manbalarni PNG/SVG ga render qiladi; tarmoq yo'q bo'lsa graceful degrade qilib
   manbalarni qoldiradi (xato bermaydi).
   *Tekshirish:* tarmoq bo'lsa render, bo'lmasa toza chiqib ketadi; skript xatosiz
   ishlaydi. (`NFR-12`)
-- [ ] **14.3. `make diagrams` maqsadi.** Makefile'da `diagrams` target
+- [x] **14.3. `make diagrams` maqsadi.** Makefile'da `diagrams` target
   (`render_diagrams.py` ni chaqiradi).
   *Tekshirish:* `make diagrams` ishlaydi. (`NFR-12`)
 

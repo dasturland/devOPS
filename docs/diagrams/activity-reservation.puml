@@ -1,0 +1,34 @@
+@startuml activity-reservation
+' Activity: 3-step booking wizard and conflict check (FR-12, FR-13).
+start
+:Mijoz sana/vaqt/davomiylik/odam sonini kiritadi;
+:Bo'sh stollarni qidirish (search_available_tables);
+if (Bo'sh stol bormi?) then (yo'q)
+  :"Bo'sh stol topilmadi" xabari;
+  stop
+else (ha)
+  :Mijoz stolni tanlaydi;
+  :Bronni tasdiqlash shakli;
+  :create_reservation(): transaction.atomic + select_for_update;
+  if (O'tmishdagi vaqt?) then (ha)
+    :ValidationError;
+    stop
+  endif
+  if (Ish vaqtidan tashqari?) then (ha)
+    :ValidationError;
+    stop
+  endif
+  if (Sig'imdan oshganmi?) then (ha)
+    :ValidationError;
+    stop
+  endif
+  if (Vaqt kesishmasi (overlap)?) then (ha)
+    :ConflictError;
+    stop
+  else (yo'q)
+    :PENDING bron yaratiladi;
+    :Audit yoziladi + menejerga xabar;
+    stop
+  endif
+endif
+@enduml
