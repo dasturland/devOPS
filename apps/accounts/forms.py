@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
+
+if TYPE_CHECKING:
+    from django.contrib.auth.base_user import AbstractBaseUser
+    from django.http import HttpRequest
 
 User = get_user_model()
 
@@ -26,7 +32,7 @@ class RegisterForm(forms.Form):
         return email
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         password = cleaned.get("password")
         confirm = cleaned.get("password_confirm")
         if password and confirm and password != confirm:
@@ -43,12 +49,12 @@ class LoginForm(forms.Form):
     password = forms.CharField(label="Parol", widget=forms.PasswordInput)
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        self.request = kwargs.pop("request", None)
-        self.user = None
+        self.request: HttpRequest | None = kwargs.pop("request", None)  # type: ignore[assignment]
+        self.user: AbstractBaseUser | None = None
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         email = cleaned.get("email")
         password = cleaned.get("password")
         if email and password:
@@ -70,7 +76,7 @@ class ChangePasswordForm(forms.Form):
     )
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         new = cleaned.get("new_password")
         confirm = cleaned.get("new_password_confirm")
         if new and confirm and new != confirm:
@@ -96,7 +102,7 @@ class SetNewPasswordForm(forms.Form):
     )
 
     def clean(self) -> dict:
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         new = cleaned.get("new_password")
         confirm = cleaned.get("new_password_confirm")
         if new and confirm and new != confirm:

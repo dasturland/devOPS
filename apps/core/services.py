@@ -14,11 +14,13 @@ if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractBaseUser
     from django.db.models import Model
 
+    from apps.accounts.models import User
+
 logger = logging.getLogger(__name__)
 
 
 def record_audit(
-    actor: AbstractBaseUser | None,
+    actor: User | None,
     action: str,
     instance: Model,
     changes: dict[str, Any] | None = None,

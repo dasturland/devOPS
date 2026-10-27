@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -17,6 +17,8 @@ from apps.reviews.services import create_review
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
 
+    from apps.accounts.models import User
+
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -27,7 +29,7 @@ def create_review_view(request: HttpRequest, reservation_id: int) -> HttpRespons
     if request.method == "POST" and form.is_valid():
         try:
             create_review(
-                request.user,
+                cast("User", request.user),
                 reservation,
                 form.cleaned_data["rating"],
                 form.cleaned_data["comment"],

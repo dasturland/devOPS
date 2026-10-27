@@ -20,7 +20,7 @@ class Role(models.TextChoices):
 class User(AbstractUser):
     """Platform user authenticated by email with an explicit role."""
 
-    email = models.EmailField("email", unique=True)
+    email = models.EmailField("email", unique=True)  # type: ignore[misc]
     role = models.CharField(
         "rol",
         max_length=16,

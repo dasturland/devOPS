@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
@@ -28,6 +28,8 @@ from apps.core.exceptions import ValidationError
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
+
+    from apps.accounts.models import User
 
 
 @require_http_methods(["GET", "POST"])
@@ -85,7 +87,7 @@ def change_password_view(request: HttpRequest) -> HttpResponse:
     if request.method == "POST" and form.is_valid():
         try:
             change_password(
-                request.user,
+                cast("User", request.user),
                 form.cleaned_data["old_password"],
                 form.cleaned_data["new_password"],
             )

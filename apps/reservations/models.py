@@ -15,6 +15,7 @@ Python-side overlap check in ``services.py`` provides the equivalent guarantee.
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from typing import Any
 
 from django.conf import settings
 from django.contrib.postgres.fields import DateTimeRangeField
@@ -85,7 +86,7 @@ class Reservation(TimeStampedModel):
     def __str__(self) -> str:
         return f"Bron #{self.pk} ({self.get_status_display()})"
 
-    def save(self, *args: object, **kwargs: object) -> None:
+    def save(self, *args: Any, **kwargs: Any) -> None:
         """Materialise ``time_range`` from ``start_time``/``duration`` (FR-13).
 
         The stored ``tstzrange`` is what the PostgreSQL exclusion constraint
