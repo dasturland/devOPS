@@ -113,9 +113,7 @@ def password_reset_request_view(request: HttpRequest) -> HttpResponse:
 
 
 @require_http_methods(["GET", "POST"])
-def password_reset_confirm_view(
-    request: HttpRequest, uidb64: str, token: str
-) -> HttpResponse:
+def password_reset_confirm_view(request: HttpRequest, uidb64: str, token: str) -> HttpResponse:
     """Set a new password via the reset link (FR-05)."""
     form = SetNewPasswordForm(request.POST or None)
     if request.method == "POST" and form.is_valid():

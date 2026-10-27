@@ -66,12 +66,8 @@ class Reservation(TimeStampedModel):
         verbose_name_plural = "Bronlar"
         ordering = ["-start_time"]
         constraints = [
-            models.CheckConstraint(
-                condition=Q(guests_count__gte=1), name="res_guests_gte_1"
-            ),
-            models.CheckConstraint(
-                condition=Q(duration_minutes__gte=30), name="res_duration_min"
-            ),
+            models.CheckConstraint(condition=Q(guests_count__gte=1), name="res_guests_gte_1"),
+            models.CheckConstraint(condition=Q(duration_minutes__gte=30), name="res_duration_min"),
         ]
         indexes = [
             models.Index(fields=["table", "start_time"], name="res_table_start_idx"),

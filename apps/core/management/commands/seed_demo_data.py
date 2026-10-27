@@ -144,7 +144,9 @@ class Command(BaseCommand):
         for cafe in cafes:
             for zname, ztype in zone_specs:
                 zone, _ = Zone.objects.get_or_create(
-                    cafe=cafe, name=zname, defaults={"zone_type": ztype}
+                    cafe=cafe,
+                    name=zname,
+                    defaults={"zone_type": ztype},
                 )
                 # 4 tables per zone => 3 cafes * 3 zones * 4 = 36 tables (>= 30).
                 for n in range(1, 5):
@@ -157,12 +159,13 @@ class Command(BaseCommand):
                     tables.append(table)
         return tables
 
-    def _reservations(
-        self, customers: list, tables: list[Table], count: int
-    ) -> list[Reservation]:
+    def _reservations(self, customers: list, tables: list[Table], count: int) -> list[Reservation]:
         reservations: list[Reservation] = []
         base = timezone.localtime(timezone.now()).replace(
-            hour=12, minute=0, second=0, microsecond=0
+            hour=12,
+            minute=0,
+            second=0,
+            microsecond=0,
         )
         for i in range(count):
             table = tables[i % len(tables)]
@@ -171,7 +174,7 @@ class Command(BaseCommand):
             # Spread reservations across past and future days and times so the
             # dashboard and "my reservations" filters show realistic data.
             day_offset = (i % 20) - 10  # -10 .. +9 days
-            hour = 10 + (i % 10)        # within 09:00-23:00 working window
+            hour = 10 + (i % 10)  # within 09:00-23:00 working window
             start_naive = (base + timedelta(days=day_offset)).replace(hour=hour)
             start_time = self._aware(start_naive)
 

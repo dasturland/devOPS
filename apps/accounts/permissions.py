@@ -61,9 +61,7 @@ class IsManagerOfCafe(BasePermission):
             return True
         return _has_role(request, "ADMIN", "MANAGER")
 
-    def has_object_permission(
-        self, request: Request, view: APIView, obj: object
-    ) -> bool:
+    def has_object_permission(self, request: Request, view: APIView, obj: object) -> bool:
         if request.method in SAFE_METHODS:
             return True
         user = request.user
@@ -85,9 +83,7 @@ class IsOwnerOrReadOnly(BasePermission):
 
     message = "Ushbu obyektni faqat egasi o'zgartira oladi."
 
-    def has_object_permission(
-        self, request: Request, view: APIView, obj: object
-    ) -> bool:
+    def has_object_permission(self, request: Request, view: APIView, obj: object) -> bool:
         if request.method in SAFE_METHODS:
             return True
         user = request.user

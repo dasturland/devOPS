@@ -55,9 +55,7 @@ def book_view(request: HttpRequest) -> HttpResponse:
     form = ReservationConfirmForm(source or None)
     if request.method == "POST" and form.is_valid():
         data = form.cleaned_data
-        start_time = timezone.make_aware(
-            datetime.combine(data["date"], data["start_time"])
-        )
+        start_time = timezone.make_aware(datetime.combine(data["date"], data["start_time"]))
         try:
             services.create_reservation(
                 request.user,
@@ -101,11 +99,7 @@ def manager_schedule_view(request: HttpRequest) -> HttpResponse:
         raise PermissionDenied
     cafe = user.managed_cafes.first()
     day_str = request.GET.get("date")
-    day = (
-        datetime.strptime(day_str, "%Y-%m-%d").date()
-        if day_str
-        else timezone.localdate()
-    )
+    day = datetime.strptime(day_str, "%Y-%m-%d").date() if day_str else timezone.localdate()
     reservations = services.daily_schedule(cafe, day) if cafe else []
     return render(
         request,
@@ -120,9 +114,7 @@ def _action_view(action: Callable[[Reservation, object], Reservation], success: 
     @login_required
     @require_http_methods(["POST"])
     def view(request: HttpRequest, pk: int) -> HttpResponse:
-        reservation = get_object_or_404(
-            Reservation.objects.with_related(), pk=pk
-        )
+        reservation = get_object_or_404(Reservation.objects.with_related(), pk=pk)
         try:
             action(reservation, request.user)
         except DomainError as exc:

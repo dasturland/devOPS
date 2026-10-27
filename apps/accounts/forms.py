@@ -17,9 +17,7 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(label="Email")
     phone = forms.CharField(label="Telefon", max_length=32, required=False)
     password = forms.CharField(label="Parol", widget=forms.PasswordInput)
-    password_confirm = forms.CharField(
-        label="Parolni tasdiqlang", widget=forms.PasswordInput
-    )
+    password_confirm = forms.CharField(label="Parolni tasdiqlang", widget=forms.PasswordInput)
 
     def clean_email(self) -> str:
         email = self.cleaned_data["email"].strip().lower()
@@ -54,9 +52,7 @@ class LoginForm(forms.Form):
         email = cleaned.get("email")
         password = cleaned.get("password")
         if email and password:
-            user = authenticate(
-                self.request, username=email.strip().lower(), password=password
-            )
+            user = authenticate(self.request, username=email.strip().lower(), password=password)
             if user is None:
                 raise forms.ValidationError("Email yoki parol noto'g'ri.")
             self.user = user
@@ -69,7 +65,8 @@ class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(label="Joriy parol", widget=forms.PasswordInput)
     new_password = forms.CharField(label="Yangi parol", widget=forms.PasswordInput)
     new_password_confirm = forms.CharField(
-        label="Yangi parolni tasdiqlang", widget=forms.PasswordInput
+        label="Yangi parolni tasdiqlang",
+        widget=forms.PasswordInput,
     )
 
     def clean(self) -> dict:
@@ -94,7 +91,8 @@ class SetNewPasswordForm(forms.Form):
 
     new_password = forms.CharField(label="Yangi parol", widget=forms.PasswordInput)
     new_password_confirm = forms.CharField(
-        label="Yangi parolni tasdiqlang", widget=forms.PasswordInput
+        label="Yangi parolni tasdiqlang",
+        widget=forms.PasswordInput,
     )
 
     def clean(self) -> dict:

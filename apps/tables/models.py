@@ -39,12 +39,8 @@ class Table(TimeStampedModel):
         verbose_name_plural = "Stollar"
         ordering = ["zone", "number"]
         constraints = [
-            models.CheckConstraint(
-                condition=Q(capacity__gte=1), name="table_capacity_gte_1"
-            ),
-            models.UniqueConstraint(
-                fields=["zone", "number"], name="uniq_table_number_per_zone"
-            ),
+            models.CheckConstraint(condition=Q(capacity__gte=1), name="table_capacity_gte_1"),
+            models.UniqueConstraint(fields=["zone", "number"], name="uniq_table_number_per_zone"),
         ]
         indexes = [models.Index(fields=["zone", "status"], name="table_zone_status_idx")]
 

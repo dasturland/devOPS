@@ -20,9 +20,7 @@ def ensure_unique_number(cafe: Cafe, number: str, exclude_pk: int | None = None)
     if exclude_pk is not None:
         qs = qs.exclude(pk=exclude_pk)
     if qs.exists():
-        raise ValidationError(
-            f"'{number}' raqamli stol ushbu kafeda allaqachon mavjud."
-        )
+        raise ValidationError(f"'{number}' raqamli stol ushbu kafeda allaqachon mavjud.")
 
 
 def create_table(actor: User, zone: Zone, data: dict[str, Any]) -> Table:

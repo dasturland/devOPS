@@ -30,10 +30,7 @@ def home(request: HttpRequest) -> HttpResponse:
     from apps.reviews.models import Review
 
     cafes = Cafe.objects.filter(is_active=True).select_related("manager")[:6]
-    reviews = (
-        Review.objects.select_related("cafe", "author")
-        .order_by("-created_at")[:3]
-    )
+    reviews = Review.objects.select_related("cafe", "author").order_by("-created_at")[:3]
     context = {
         "search_form": AvailabilitySearchForm(),
         "cafes": cafes,
@@ -42,16 +39,12 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, "core/home.html", context)
 
 
-def handler403(
-    request: HttpRequest, exception: Exception | None = None
-) -> HttpResponse:
+def handler403(request: HttpRequest, exception: Exception | None = None) -> HttpResponse:
     """Render the branded 403 page (FR-29)."""
     return render(request, "errors/403.html", status=403)
 
 
-def handler404(
-    request: HttpRequest, exception: Exception | None = None
-) -> HttpResponse:
+def handler404(request: HttpRequest, exception: Exception | None = None) -> HttpResponse:
     """Render the branded 404 page (FR-29)."""
     return render(request, "errors/404.html", status=404)
 

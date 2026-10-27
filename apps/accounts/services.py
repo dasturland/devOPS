@@ -72,10 +72,7 @@ def issue_password_reset(email: str) -> str | None:
     send_notification(
         user,
         subject="Parolni tiklash",
-        message=(
-            "Parolingizni tiklash uchun quyidagi havoladan foydalaning:\n"
-            f"{reset_path}"
-        ),
+        message="Parolingizni tiklash uchun quyidagi havoladan foydalaning:\n" f"{reset_path}",
     )
     return token
 

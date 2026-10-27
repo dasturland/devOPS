@@ -40,7 +40,8 @@ def cafe_list(request: HttpRequest) -> HttpResponse:
 def cafe_detail(request: HttpRequest, slug: str) -> HttpResponse:
     """Cafe detail page with average rating and zones."""
     cafe = get_object_or_404(
-        Cafe.objects.select_related("manager").prefetch_related("zones"), slug=slug
+        Cafe.objects.select_related("manager").prefetch_related("zones"),
+        slug=slug,
     )
     context = {
         "cafe": cafe,
@@ -76,6 +77,4 @@ def zone_create(request: HttpRequest, slug: str) -> HttpResponse:
         manage_zone(request.user, cafe, form.cleaned_data)
         messages.success(request, "Zona qo'shildi.")
         return redirect("cafes:detail", slug=cafe.slug)
-    return render(
-        request, "cafes/form.html", {"form": form, "title": "Yangi zona"}
-    )
+    return render(request, "cafes/form.html", {"form": form, "title": "Yangi zona"})

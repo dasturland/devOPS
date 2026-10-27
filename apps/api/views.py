@@ -105,11 +105,10 @@ class ReservationViewSet(viewsets.ModelViewSet):
         serializer = ReservationCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         reservation = reservation_services.create_reservation(
-            request.user, serializer.validated_data
+            request.user,
+            serializer.validated_data,
         )
-        return Response(
-            ReservationSerializer(reservation).data, status=status.HTTP_201_CREATED
-        )
+        return Response(ReservationSerializer(reservation).data, status=status.HTTP_201_CREATED)
 
     def _run_action(self, request: Request, pk: str | None, func) -> Response:  # noqa: ANN001
         reservation = self.get_object()
@@ -159,9 +158,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Bron topilmadi."}, status=404)
         except DomainError as exc:
             return Response({"detail": exc.message}, status=exc.status_code)
-        return Response(
-            ReviewSerializer(review).data, status=status.HTTP_201_CREATED
-        )
+        return Response(ReviewSerializer(review).data, status=status.HTTP_201_CREATED)
 
 
 __all__ = [

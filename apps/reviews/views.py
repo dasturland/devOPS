@@ -22,9 +22,7 @@ if TYPE_CHECKING:
 @require_http_methods(["GET", "POST"])
 def create_review_view(request: HttpRequest, reservation_id: int) -> HttpResponse:
     """Leave a review for a completed reservation (FR-21)."""
-    reservation = get_object_or_404(
-        Reservation.objects.with_related(), pk=reservation_id
-    )
+    reservation = get_object_or_404(Reservation.objects.with_related(), pk=reservation_id)
     form = ReviewForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         try:
@@ -39,6 +37,4 @@ def create_review_view(request: HttpRequest, reservation_id: int) -> HttpRespons
             return redirect("reservations:my")
         messages.success(request, "Sharhingiz saqlandi.")
         return redirect("cafes:detail", slug=reservation.table.zone.cafe.slug)
-    return render(
-        request, "reviews/form.html", {"form": form, "reservation": reservation}
-    )
+    return render(request, "reviews/form.html", {"form": form, "reservation": reservation})

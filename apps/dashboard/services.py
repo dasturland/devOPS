@@ -13,9 +13,7 @@ from apps.reservations.models import Reservation, ReservationStatus
 
 def admin_stats(date_from: date, date_to: date) -> dict[str, Any]:
     """Return platform-wide statistics for a date range (FR-22)."""
-    qs = Reservation.objects.filter(
-        start_time__date__gte=date_from, start_time__date__lte=date_to
-    )
+    qs = Reservation.objects.filter(start_time__date__gte=date_from, start_time__date__lte=date_to)
     total = qs.count()
     by_status = {
         row["status"]: row["count"]
@@ -32,16 +30,12 @@ def admin_stats(date_from: date, date_to: date) -> dict[str, Any]:
 
 def manager_daily_schedule(cafe: Cafe, day: date) -> list[Reservation]:
     """Return a cafe's reservations for one day, ordered by time (FR-20)."""
-    return list(
-        Reservation.objects.for_cafe(cafe).on_date(day).order_by("start_time")
-    )
+    return list(Reservation.objects.for_cafe(cafe).on_date(day).order_by("start_time"))
 
 
 def cancellation_rate(date_from: date, date_to: date) -> float:
     """Return the cancellation percentage for a date range (FR-22)."""
-    qs = Reservation.objects.filter(
-        start_time__date__gte=date_from, start_time__date__lte=date_to
-    )
+    qs = Reservation.objects.filter(start_time__date__gte=date_from, start_time__date__lte=date_to)
     total = qs.count()
     if total == 0:
         return 0.0
@@ -54,9 +48,7 @@ def cancellation_rate(date_from: date, date_to: date) -> float:
 def busiest_tables(date_from: date, date_to: date, limit: int = 5) -> list[dict[str, Any]]:
     """Return the most-reserved tables for a date range (FR-22)."""
     rows = (
-        Reservation.objects.filter(
-            start_time__date__gte=date_from, start_time__date__lte=date_to
-        )
+        Reservation.objects.filter(start_time__date__gte=date_from, start_time__date__lte=date_to)
         .values("table_id", "table__number")
         .annotate(count=Count("id"))
         .order_by("-count")[:limit]

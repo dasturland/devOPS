@@ -158,9 +158,7 @@ def create_reservation(customer: User, data: dict[str, Any]) -> Reservation:
 
     with transaction.atomic():
         table = (
-            Table.objects.select_related("zone", "zone__cafe")
-            .select_for_update()
-            .get(pk=table_id)
+            Table.objects.select_related("zone", "zone__cafe").select_for_update().get(pk=table_id)
         )
         _validate_window(table, start_time, duration, guests)
 
@@ -213,9 +211,7 @@ def transition(reservation: Reservation, target: str, actor: User) -> Reservatio
     """
     current = reservation.status
     if target not in ALLOWED_TRANSITIONS.get(current, set()):
-        raise InvalidTransitionError(
-            f"'{current}' holatidan '{target}' holatiga o'tib bo'lmaydi."
-        )
+        raise InvalidTransitionError(f"'{current}' holatidan '{target}' holatiga o'tib bo'lmaydi.")
     reservation.status = target
     reservation.save(update_fields=["status", "updated_at"])
     record_audit(actor, AuditAction.UPDATE, reservation, {"status": [current, target]})
@@ -252,9 +248,7 @@ def cancel(reservation: Reservation, actor: User) -> Reservation:
         raise PermissionError("Faqat bron egasi uni bekor qila oladi.")
     remaining = reservation.start_time - timezone.now()
     if remaining < timedelta(hours=CANCEL_MIN_HOURS):
-        raise ValidationError(
-            "Bronni boshlanishiga kamida 2 soat qolganda bekor qilish mumkin."
-        )
+        raise ValidationError("Bronni boshlanishiga kamida 2 soat qolganda bekor qilish mumkin.")
     return transition(reservation, ReservationStatus.CANCELLED, actor)
 
 
