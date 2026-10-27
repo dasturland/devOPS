@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Kirish{% endblock %}
+{% block content %}
+<h1>Tizimga kirish</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Kirish</button>
+</form>
+<p><a href="{% url 'accounts:password_reset' %}">Parolni unutdingizmi?</a></p>
+<p>Hisobingiz yo'qmi? <a href="{% url 'accounts:register' %}">Ro'yxatdan o'ting</a></p>
+{% endblock %}
