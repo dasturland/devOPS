@@ -372,13 +372,13 @@ fazaga tayanadi.
 
 ## Faza 15. Docker (konteynerlashtirish)
 
-- [ ] **15.1. Multi-stage `Dockerfile`.** `python:3.12-slim`, build/runtime bosqichlari,
+- [x] **15.1. Multi-stage `Dockerfile`.** `python:3.12-slim`, build/runtime bosqichlari,
   non-root foydalanuvchi, `collectstatic`, `HEALTHCHECK` `/health/` ga murojaat qiladi.
   *Tekshirish:* `docker build` image yaratadi; HEALTHCHECK sog'liqni tekshiradi.
   (`NFR-06`, `FR-25`, `design.md` §10.3)
-- [ ] **15.2. `entrypoint.sh`.** `migrate`, `collectstatic`, gunicorn ishga tushirish.
+- [x] **15.2. `entrypoint.sh`.** `migrate`, `collectstatic`, gunicorn ishga tushirish.
   *Tekshirish:* konteyner ishga tushganda migratsiya/server ishlaydi. (`NFR-06`)
-- [ ] **15.3. `docker-compose.yml` va `docker-compose.dev.yml`.** Prod compose
+- [x] **15.3. `docker-compose.yml` va `docker-compose.dev.yml`.** Prod compose
   (web + db PostgreSQL + nginx) va dev compose (tezroq sozlash); `.dockerignore`.
   *Tekshirish:* `docker compose up --build` ilovani ishga tushiradi va `/health/`
   200 qaytaradi. (`NFR-06`, `NFR-11`)
