@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Model o'zgarganda migratsiya tekshiruvi",
+  "description": "models.py o'zgarganda makemigrations --check ni eslatadi va tegishli testlarni qayta ishga tushirishni taklif qiladi (FR-16, NFR-05).",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "apps/**/models.py",
+      "apps/**/managers.py"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Model qatlami o'zgardi. `python manage.py makemigrations --check --dry-run` ni ishga tushir: agar yetishmayotgan migratsiya bo'lsa, `makemigrations` bilan yarat. So'ngra o'zgargan ilova uchun tegishli testlarni (`pytest tests/`) ishga tushirishni eslat va cheklov/indekslar hali ham to'g'ri ekanini tekshir."
+  }
+}

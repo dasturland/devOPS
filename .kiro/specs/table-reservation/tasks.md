@@ -441,13 +441,13 @@ fazaga tayanadi.
 
 ## Faza 18. Steering fayllari
 
-- [ ] **18.1. `.kiro/steering/product.md`, `tech.md`, `structure.md`.** Mahsulot
+- [x] **18.1. `.kiro/steering/product.md`, `tech.md`, `structure.md`.** Mahsulot
   tavsifi, texnologiya to'plami va katalog tuzilmasi steering hujjatlari (o'zbek lotin).
   *Tekshirish:* uchala fayl mavjud va loyiha haqiqatiga mos. (`NFR-12`, `design.md` §9)
 
 ## Faza 19. Kiro hooks
 
-- [ ] **19.1. `.kiro/hooks/` (kamida 3 ta).** Masalan: saqlashda test/lint ishga
+- [x] **19.1. `.kiro/hooks/` (kamida 3 ta).** Masalan: saqlashda test/lint ishga
   tushirish, commit oldidan tekshiruv, migratsiya eslatmasi kabi kamida uchta hook.
   *Tekshirish:* `.kiro/hooks/` ichida kamida 3 ta to'g'ri formatdagi hook fayli mavjud.
   (`NFR-07`, `NFR-09`)

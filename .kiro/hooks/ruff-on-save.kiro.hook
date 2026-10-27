@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Python saqlanganda ruff",
+  "description": "Python fayli saqlanganda ruff check --fix va ruff format ni ishga tushiradi (NFR-09).",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "apps/**/*.py",
+      "config/**/*.py",
+      "tests/**/*.py",
+      "scripts/**/*.py"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Saqlangan Python fayl(lar)i uchun `ruff check --fix` va `ruff format` ni ishga tushir. Lint xatolarini avtomatik tuzat; tuzatib bo'lmaydiganlarini qisqacha ro'yxat qilib ber. Hech qanday boshqa o'zgarish kiritma."
+  }
+}

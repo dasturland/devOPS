@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Workflow YAML tekshiruvi",
+  "description": ".github/workflows/*.yml o'zgarganda YAML/actionlint tekshiruvini va xavfsizlik qoidalarini eslatadi (NFR-07).",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      ".github/workflows/*.yml",
+      ".github/workflows/*.yaml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "GitHub Actions workflow o'zgardi. Quyidagilarni tekshir: (1) YAML sintaksisi to'g'ri (iloji bo'lsa `actionlint` yoki `yamllint` bilan); (2) har job'da `permissions` minimal, `concurrency` va `timeout-minutes` mavjud; (3) sirlar faqat GitHub Secrets orqali ishlatilgan va butun muhitni dump qiluvchi buyruq (printenv/env/os.environ) yo'q. Muammolarni ro'yxat qilib ber."
+  }
+}
