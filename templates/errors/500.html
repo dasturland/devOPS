@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}500 &mdash; Server xatosi{% endblock %}
+
+{% block content %}
+<section class="error-page">
+  <h1>500</h1>
+  <p>Serverda kutilmagan xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring.</p>
+  <a class="btn btn-primary" href="{% url 'core:home' %}">Bosh sahifaga qaytish</a>
+</section>
+{% endblock %}

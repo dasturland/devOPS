@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}TableReserve &mdash; bosh sahifa{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>Kafe stolingizni bir necha soniyada band qiling</h1>
+  <p>Sana, vaqt va odam soniga ko'ra bo'sh stollarni toping va onlayn bron qiling.</p>
+  <a class="btn btn-primary" href="{% url 'cafes:list' %}">Kafelarni ko'rish</a>
+</section>
+{% endblock %}
