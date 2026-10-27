@@ -17,7 +17,6 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -30,6 +29,14 @@ jobs:
       security-events: write   # upload Trivy SARIF
     steps:
       - uses: actions/checkout@v4
+
+      - name: Compute lowercase image name
+        id: image
+        # GHCR / Docker image references must be lowercase, but
+        # ${{ github.repository }} can contain uppercase letters.
+        run: echo "name=${REGISTRY}/${REPO,,}" >> "$GITHUB_OUTPUT"
+        env:
+          REPO: ${{ github.repository }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -47,7 +54,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ steps.image.outputs.name }}
           tags: |
             type=ref,event=branch
             type=sha
@@ -59,14 +66,14 @@ jobs:
         with:
           context: .
           load: true
-          tags: ${{ env.IMAGE_NAME }}:scan
+          tags: ${{ steps.image.outputs.name }}:scan
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Trivy vulnerability scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: ${{ env.IMAGE_NAME }}:scan
+          image-ref: ${{ steps.image.outputs.name }}:scan
           format: sarif
           output: trivy-results.sarif
           severity: CRITICAL,HIGH
