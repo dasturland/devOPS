@@ -39,12 +39,17 @@ class IsManager(BasePermission):
 
 
 class IsCustomer(BasePermission):
-    """Allow only customers."""
+    """Allow only customers.
+
+    Unlike the admin/manager roles, this does not grant superusers an implicit
+    pass: a customer-only endpoint must be reached as an actual CUSTOMER.
+    """
 
     message = "Faqat mijoz uchun ruxsat etilgan."
 
     def has_permission(self, request: Request, view: APIView) -> bool:
-        return _has_role(request, "CUSTOMER")
+        user = request.user
+        return bool(user and user.is_authenticated and getattr(user, "role", None) == "CUSTOMER")
 
 
 class IsManagerOfCafe(BasePermission):
