@@ -475,26 +475,33 @@ fazaga tayanadi.
 > Izoh: ushbu fazadagi haqiqiy push/PR/release/repo-sozlash qadamlarini **orkestrator**
 > bajaradi. Tayyorlovchi (coder) kontent va lokal commitlarni tayyorlaydi.
 
-- [ ] **21.1. Conventional Commits (lokal, >=15 commit).** Fazalar bo'yicha mantiqiy,
+- [x] **21.1. Conventional Commits (lokal, >=15 commit).** Fazalar bo'yicha mantiqiy,
   ingliz tilidagi Conventional Commits uslubidagi kamida 15 ta lokal commit tayyorlash
   (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`).
   *Tekshirish:* `git log --oneline` >=15 Conventional Commit ko'rsatadi. (`contribution`)
-- [ ] **21.2. Branch strategiyasi (`main`/`develop`/`feature`).** Branch oqimini
+  *Bajarildi:* `main` da 50+ Conventional Commit mavjud.
+- [x] **21.2. Branch strategiyasi (`main`/`develop`/`feature`).** Branch oqimini
   hujjatlashtirish va tayyorlash (push/merge orkestrator tomonidan).
   *Tekshirish:* branch strategiyasi `docs/cicd.md`/README'da hujjatlangan. (`NFR-07`)
-- [ ] **21.3. Pull request (shablon bilan).** PR tanasini `PULL_REQUEST_TEMPLATE.md`
+  *Bajarildi:* `main` va `develop` branch'lari push qilindi; feature/* branch'lardan PR ochildi.
+- [x] **21.3. Pull request (shablon bilan).** PR tanasini `PULL_REQUEST_TEMPLATE.md`
   asosida tayyorlash (PR ochishni orkestrator bajaradi).
   *Tekshirish:* PR shabloni to'ldirilgan kontent tayyor. (`NFR-07`)
-- [ ] **21.4. CI yashil tekshiruvi.** CI (lint/test/matritsa/qamrov) yashil bo'lishini
+  *Bajarildi:* PR #6, #7, #8, #9 ochildi va merge qilindi.
+- [x] **21.4. CI yashil tekshiruvi.** CI (lint/test/matritsa/qamrov) yashil bo'lishini
   ta'minlaydigan kontent (push va monitoring orkestratorda).
   *Tekshirish:* lokal `make lint && make test` toza. (`NFR-05`, `NFR-07`, `NFR-09`)
-- [ ] **21.5. `v1.0.0` release/tag.** Release yozuvi va `CHANGELOG.md` tayyorlash
+  *Bajarildi:* CI, Security, Docker, CD, Release, Docs workflow'lari GitHub Actions'da yashil; qamrov 84.66%.
+- [x] **21.5. `v1.0.0` release/tag.** Release yozuvi va `CHANGELOG.md` tayyorlash
   (tag/release yaratishni orkestrator bajaradi).
   *Tekshirish:* `CHANGELOG.md` `v1.0.0` bo'limiga ega; release.yml tayyor. (`NFR-07`,
   `NFR-12`)
+  *Bajarildi:* `v1.0.0` tegi push qilindi; release.yml GitHub Release yaratdi.
 - [ ] **21.6. Repo About va topics.** Repo tavsifi va mavzular (topics) matnini
   tayyorlash (repo sozlamasini orkestrator qo'llaydi).
   *Tekshirish:* About/topics matni README/docs'da tayyor. (`NFR-12`)
+  *Eslatma:* About/topics matni tayyor, ammo repo metama'lumotini o'zgartirish (PATCH/PUT)
+  gateway tokeni tomonidan 403 bilan bloklangan - foydalanuvchi GitHub UI'da qo'lda sozlashi kerak.
 
 ---
 
