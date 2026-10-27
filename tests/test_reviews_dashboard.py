@@ -17,9 +17,7 @@ pytestmark = pytest.mark.django_db
 
 
 def _completed(table, customer, start):
-    return ReservationFactory(
-        table=table, customer=customer, start_time=start, status="COMPLETED"
-    )
+    return ReservationFactory(table=table, customer=customer, start_time=start, status="COMPLETED")
 
 
 def test_create_review_requires_completed(reservation, customer_user):

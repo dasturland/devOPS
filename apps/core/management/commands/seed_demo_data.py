@@ -62,8 +62,7 @@ class Command(BaseCommand):
             self._user("manager2@tablereserve.uz", "MANAGER", "Dilnoza"),
         ]
         customers = [
-            self._user(f"customer{i}@tablereserve.uz", "CUSTOMER", f"Mijoz{i}")
-            for i in range(1, 6)
+            self._user(f"customer{i}@tablereserve.uz", "CUSTOMER", f"Mijoz{i}") for i in range(1, 6)
         ]
 
         cafes = self._cafes(managers)
