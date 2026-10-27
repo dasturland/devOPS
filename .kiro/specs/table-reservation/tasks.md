@@ -334,21 +334,21 @@ fazaga tayanadi.
 
 ## Faza 13. Testlar (pytest, >=40 test, qamrov >=80%)
 
-- [ ] **13.1. Test infratuzilmasi va factory_boy.** `conftest.py`, umumiy fixture'lar
+- [x] **13.1. Test infratuzilmasi va factory_boy.** `conftest.py`, umumiy fixture'lar
   va har model uchun `factory_boy` fabrikalari (User/Cafe/Zone/Table/Reservation/Review).
   *Tekshirish:* `pytest` fabrikalarni yuklaydi; namuna test o'tadi. (`NFR-05`)
-- [ ] **13.2. Model va servis testlari.** core/accounts/cafes/tables/reservations/
+- [x] **13.2. Model va servis testlari.** core/accounts/cafes/tables/reservations/
   reviews/dashboard modellari va servislari; jumladan bron edge-case'lari: off-hours,
   o'tmish vaqt, sig'imdan oshish, parallel double-booking, 2 soat bekor qilish
   qoidasi, noqonuniy holat o'tishi.
   *Tekshirish:* ushbu edge-case testlari mavjud va o'tadi. (`FR-13`, `FR-14`, `FR-15`,
   `FR-16`, `FR-18`, `FR-21`, `NFR-05`)
-- [ ] **13.3. View, API, permission va health testlari.** Auth/login/register,
+- [x] **13.3. View, API, permission va health testlari.** Auth/login/register,
   CRUD view'lari, DRF endpointlari, rol ruxsatlari (ruxsatsiz kirish 403) va
   `/health/` 200/503.
   *Tekshirish:* view/API/permission/health testlari o'tadi. (`FR-02`, `FR-07`,
   `FR-24`, `FR-25`, `NFR-05`)
-- [ ] **13.4. Qamrov darvozasi.** Umumiy test soni >=40 va `pytest --cov` qamrovi
+- [x] **13.4. Qamrov darvozasi.** Umumiy test soni >=40 va `pytest --cov` qamrovi
   >=80% (aks holda fail).
   *Tekshirish:* `pytest --cov` o'tadi; qamrov >=80%; test soni >=40. (`NFR-05`)
 
